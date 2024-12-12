@@ -30,7 +30,10 @@
 					<td th:text="${p.startDate}"></td>
 					<td th:text="${p.endDate}"></td>
 					<td th:text="${p.assignBy}"></td>
-					<td th:text="${p.remark}"></td>
+					<!-- <td th:text="${p.remark}"></td> -->
+					<td th:if="${p.remark}=='A'" class="text-primary" th:text="${p.remark}"></td>
+					<td th:if="${p.remark}=='B'" class="text-warning" th:text="${p.remark}"></td>
+					<td th:if="${p.remark}=='C'" class="text-danger" th:text="${p.remark}"></td>
 				</tr>
 			</tbody>
 		</table>

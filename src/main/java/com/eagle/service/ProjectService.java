@@ -19,4 +19,6 @@ public interface ProjectService {
 	Project updateProject(Project project);
 	
 	void deleteProjectById(Long id);
+	
+	List<Project> getProjectsByUserId(Long id);
 }

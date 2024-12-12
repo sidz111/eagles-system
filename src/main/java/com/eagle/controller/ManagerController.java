@@ -1,12 +1,15 @@
 package com.eagle.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,4 +66,24 @@ public class ManagerController {
         redirectAttributes.addFlashAttribute("success", "Project assigned successfully.");
         return "redirect:/manager/assign-project";
     }
+    
+    @GetMapping("/submit-project/{projectId}/{remark}")
+    public String updateProject(
+            @PathVariable("projectId") Long id,
+            @PathVariable("remark") Character remark,
+            RedirectAttributes redirectAttributes
+    ) {
+        Project project = projectService.getProjectById(id); // Ensure the project exists
+        if (project != null) {
+            project.setRemark(remark); // Set the new remark
+            project.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date())); // Set end date
+            projectService.updateProject(project); // Save the updated project
+            redirectAttributes.addFlashAttribute("success", "Project updated successfully!");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Project not found or already completed!");
+        }
+        return "redirect:/all-projects"; // Redirect to the projects list
+    }
+
+
 }

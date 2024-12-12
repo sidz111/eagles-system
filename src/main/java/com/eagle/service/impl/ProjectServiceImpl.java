@@ -75,4 +75,9 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project addProject(Project project) {
 		return projectRepository.save(project);
 	}
+
+	@Override
+	public List<Project> getProjectsByUserId(Long id) {
+		return projectRepository.findByUserId(id);
+	}
 }

@@ -58,4 +58,9 @@ public class UserLogsServiceImpl implements UserLogsService{
 		userLogsRepository.deleteById(id);
 	}
 
+	@Override
+	public List<UserLogs> getUserLogsByUserId(Long id) {
+		return userLogsRepository.findByUserId(id);
+	}
+
 }

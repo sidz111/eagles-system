@@ -28,27 +28,66 @@
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<!-- Left-aligned links -->
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="/">Home</a></li>
-
+							
 						<th:block th:unless="${user == null}">
-							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
-								class="nav-link" th:href="@{'/admin/add-user'}">Add User</a></li>
+							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/'}">Admin Home</a></li>
 						</th:block>
 						
 						<th:block th:unless="${user == null}">
 							<li th:if="${user.role == 'ROLE_MANAGER'}" class="nav-item"><a
-								class="nav-link" th:href="@{'/manager/assign-project'}">Assign Project</a></li>
+								class="nav-link" th:href="@{'/'}">Manager Home</a></li>
 						</th:block>
 						
 						<th:block th:unless="${user == null}">
 							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
-								class="nav-link" th:href="@{'/employee/all-projects'}">All Projects</a></li>
+								class="nav-link" th:href="@{'/'}">Employee Home</a></li>
 						</th:block>
 
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/admin/add-user'}">Add User</a></li>
+						</th:block>
 
-						<li class="nav-item"><a class="nav-link"
-							th:href="@{'/all-users'}">All Users</a></li>
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_MANAGER'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/manager/assign-project'}">Assign
+									Project</a></li>
+						</th:block>
+
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/employee/all-projects'}">All
+									Projects</a></li>
+						</th:block>
+
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/all-users'}">All Users</a></li>
+						</th:block>
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/all-projects'}">All Projects</a></li>
+						</th:block>
+						
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/add-log'}">Add Reporting</a></li>
+						</th:block>
+						
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/all-reportings'}">All Reportings</a></li>
+						</th:block>
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/employee/all-reportings'}">My Reportings</a></li>
+						</th:block>
+
 
 
 					</ul>
@@ -58,7 +97,7 @@
 						<a class="text-decoration-none fw-bold text-dark"
 							th:href="@{/logout}">Logout</a> <a
 							class="text-decoration-none fw-bold text-dark"
-							th:href="@{/admin-profile}">Profile</a>
+							th:href="@{/profile}">Profile</a>
 					</div>
 				</div>
 			</div>

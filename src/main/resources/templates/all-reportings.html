@@ -16,26 +16,17 @@
 			<thead>
 				<tr>
 					<td>id</td>
-					<td>name</td>
-					<td>email</td>
-					<td>contact</td>
-					<td>role</td>
-					<td>joinDate</td>
-					<td>designation</td>
-					<td>isAccountLocked</td>
+					<td>Name</td>
+					<td>Reporting message</td>
+					<td>Timing</td>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="u: ${users}">
-					<td th:text="${u.id}"></td>
-					<td th:text="${u.name}"></td>
-					<td th:text="${u.email}"></td>
-					<td th:text="${u.contact}"></td>
-					<td th:text="${u.role}"></td>
-					<td th:text="${u.joinDate}"></td>
-					<td th:text="${u.designation}"></td>
-					<td th:text="${u.isAccountLocked}"></td>
-					<td><a class="btn bg-warning" th:href="@{'/admin/delete-user/'+ ${u.id}}">Delete</a></td>
+				<tr th:each="r: ${reportings}">
+					<td th:text="${r.id}"></td>
+					<td th:text="${r.user.name}"></td>
+					<td th:utext="${r.logDescription}"></td>
+					<td th:text="${r.timestamp}"></td>
 				</tr>
 			</tbody>
 		</table>
