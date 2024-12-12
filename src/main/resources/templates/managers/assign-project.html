@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Project</title>
+</head>
+<body>
+    <h1>Assign Project to Employee</h1>
+
+    <!-- Display Success or Error Messages -->
+    <div>
+        <p th:if="${success}" th:text="${success}" style="color: green;"></p>
+        <p th:if="${error}" th:text="${error}" style="color: red;"></p>
+    </div>
+
+    <form action="/manager/assign-project" method="post">
+        <label for="employeeId">Employee ID:</label>
+        <input type="number" name="employeeId" id="employeeId" placeholder="Enter Employee ID" required>
+        
+        <label for="projectName">Project Name:</label>
+        <input type="text" name="projectName" id="projectName" placeholder="Enter Project Name" required>
+        
+        <button type="submit">Assign</button>
+    </form>
+</body>
+</html>
