@@ -74,7 +74,6 @@ h4 {
 	box-shadow: 0 8px 16px rgba(255, 136, 0, 0.4);
 }
 
-
 /* Add responsiveness */
 @media ( max-width : 767px) {
 	.col-md-6 {
@@ -94,11 +93,15 @@ h4 {
 			<div
 				class="col-md-6 d-flex justify-content-center align-items-center">
 				<div class="card"
-					style="width: 100%; height: auto; text-align: center; margin-left: 150px;">
+					style="width: 100%; height: auto; text-align: center; margin-left: 100px;">
 					<h2 class="text-center text-dark">Visitors Management System</h2>
+					<img
+						th:src="@{'https://static.vecteezy.com/system/resources/previews/019/872/884/non_2x/3d-minimal-user-login-page-user-authentication-concept-user-verification-concept-login-page-with-a-fingerprint-padlock-3d-illustration-free-png.png'}"
+						alt="Login Logo" />
 				</div>
 			</div>
-			<div class="col-md-6 d-flex justify-content-center align-items-center">
+			<div
+				class="col-md-6 d-flex justify-content-center align-items-center">
 				<div class="card">
 					<div class="card-body">
 						<h4 class="text-center text-warning mb-4">Login</h4>
@@ -118,7 +121,9 @@ h4 {
 							</div>
 						</form>
 						<p class="footer-text text-dark mt-4 text-center">
-							Forgot your password? <a class="fw-bold text-warning text-decoration-none" href="/reset">Reset here</a>.
+							Forgot your password? <a
+								class="fw-bold text-warning text-decoration-none" href="/reset">Reset
+								here</a>.
 						</p>
 					</div>
 				</div>
