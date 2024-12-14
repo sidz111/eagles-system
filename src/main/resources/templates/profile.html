@@ -16,60 +16,85 @@
 
 	<!-- Main Profile Section -->
 	<div class="container mt-5">
-		<div class="card shadow">
-			<div class="card-header text-center bg-primary text-white">
-				<h2>View Profile</h2>
+		<div class="card shadow border-0">
+			<div class="card-header text-center bg-dark text-white py-2">
+				<h2 class="fw-bold">
+					Profile Details of <strong th:text="${user.name}"></strong>
+				</h2>
 			</div>
-			<div class="card-body text-center">
-				<!-- Profile Image -->
-				<div class="mb-4">
-					<img th:src="@{'images/users/' + ${user.profileImage}}"
-						alt="Admin Profile Picture"
-						class="rounded-circle border border-3 border-warning"
-						style="width: 160px; height: 160px;">
+			<div class="card-body">
+				<!-- Row for 50/50 split -->
+				<div class="row">
+					<!-- Profile Image Section -->
+					<div
+						class="col-md-6 d-flex justify-content-center align-items-center">
+						<img th:if="${user.profileImage != null}"
+							th:src="@{'/images/users/' + ${user.profileImage}}"
+							alt="Profile Picture" class="rounded border border-3 shadow-lg"
+							style="width: 350px; height: 350px;"> <img
+							th:if="${user.profileImage == null}"
+							src="/images/users/default-profile.png"
+							alt="Default Profile Picture"
+							class="rounded-circle border border-3 border-success shadow-lg"
+							style="width: 250px; height: 250px;">
+					</div>
 
-				</div>
-				<!-- User Details -->
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">ID:</div>
-					<div class="col-md-8" th:text="${user.id}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Name:</div>
-					<div class="col-md-8" th:text="${user.name}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Email:</div>
-					<div class="col-md-8" th:text="${user.email}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Password:</div>
-					<div class="col-md-8" th:text="${user.password}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Contact:</div>
-					<div class="col-md-8" th:text="${user.contact}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Role:</div>
-					<div class="col-md-8" th:text="${user.role}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Join Date:</div>
-					<div class="col-md-8" th:text="${user.joinDate}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Designation:</div>
-					<div class="col-md-8" th:text="${user.designation}"></div>
-				</div>
-				<div class="row mb-3">
-					<div class="col-md-4 text-end fw-bold">Account Locked:</div>
-					<div class="col-md-8"
-						th:text="${user.isAccountLocked} ? 'Yes' : 'No'"></div>
+					<!-- User Details Section -->
+					<div class="col-md-6">
+						<ul class="list-group list-group-flush">
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">ID:</span> <span
+								th:text="${user.id}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Name:</span> <span
+								th:text="${user.name}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Email:</span> <span
+								th:text="${user.email}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Contact:</span> <span
+								th:text="${user.contact}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Role:</span> <span
+								th:if="${user.role}=='ROLE_EMPLOYEE'" th:text="${'Employee'}"
+								class="text-dark"></span> <span
+								th:if="${user.role}=='ROLE_MANAGER'" th:text="${'Manager'}"
+								class="text-dark"></span> <span
+								th:if="${user.role}=='ROLE_ADMIN'" th:text="${'Admin'}"
+								class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Join Date:</span> <span
+								th:text="${user.joinDate}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Designation:</span> <span
+								th:text="${user.designation}" class="text-dark"></span>
+							</li>
+							<li
+								class="list-group-item d-flex justify-content-between align-items-center">
+								<span class="fw-bold text-secondary">Account Locked:</span> <span
+								th:text="${user.isAccountLocked} ? 'Yes' : 'No'"
+								class="text-dark"></span>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-			<div class="card-footer text-center">
-				<a class="btn btn-warning" href="/">Back to Home</a>
+			<div class="card-footer bg-dark text-center py-2">
+				<a class="btn btn-outline-light px-5 py-1 shadow-sm" href="/">Back
+					to Home</a>
 			</div>
 		</div>
 	</div>

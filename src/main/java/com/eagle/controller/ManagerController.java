@@ -56,14 +56,14 @@ public class ManagerController {
         Project p = new Project();
         p.setProjectName(projectName);
         p.setAssignBy(manager.getName());
-        p.setStartDate(new Date().toString());
+        p.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         p.setEndDate(null);
         p.setRemark(null);
         p.setUser(emp);
         emp.getProjects().add(p);
         projectService.addProject(p);
         userService.updateUser(emp);
-        redirectAttributes.addFlashAttribute("success", "Project assigned successfully.");
+        redirectAttributes.addFlashAttribute("success", "Project assigned successfully to "+ emp.getName());
         return "redirect:/manager/assign-project";
     }
     

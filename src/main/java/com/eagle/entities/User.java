@@ -16,6 +16,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long randomId;
 	private String name;
 	private String email;
 	private String password;
@@ -128,11 +129,20 @@ public class User {
 		this.userLogs = userLogs;
 	}
 
-	public User(Long id, String name, String email, String password, String contact, String role, String joinDate,
-			String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
+	public Long getRandomId() {
+		return randomId;
+	}
+
+	public void setRandomId(Long randomId) {
+		this.randomId = randomId;
+	}
+
+	public User(Long id, Long randomId, String name, String email, String password, String contact, String role,
+			String joinDate, String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
 			List<UserLogs> userLogs) {
 		super();
 		this.id = id;
+		this.randomId = randomId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -145,6 +155,7 @@ public class User {
 		this.projects = projects;
 		this.userLogs = userLogs;
 	}
+
 	public User() {
 		super();
 	}

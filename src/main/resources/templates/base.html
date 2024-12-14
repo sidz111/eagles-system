@@ -73,13 +73,13 @@
 						
 						
 						<th:block th:unless="${user == null}">
-							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
+							<li th:if="${user.role != 'ROLE_ADMIN'}" class="nav-item"><a
 								class="nav-link" th:href="@{'/add-log'}">Add Reporting</a></li>
 						</th:block>
 						
 						
 						<th:block th:unless="${user == null}">
-							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
+							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
 								class="nav-link" th:href="@{'/all-reportings'}">All Reportings</a></li>
 						</th:block>
 						

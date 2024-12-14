@@ -1,5 +1,7 @@
 package com.eagle.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +25,8 @@ public class Project {
 	private String assignBy;
 
 	private Character remark;
+	
+	private List<String> suggesions;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -83,5 +87,21 @@ public class Project {
 
 	public void setRemark(Character remark) {
 		this.remark = remark;
+	}
+
+	public List<String> getSuggesions() {
+		return suggesions;
+	}
+
+	public void setSuggesions(List<String> suggesions) {
+		this.suggesions = suggesions;
+	}
+
+	public User getUser_project() {
+		return user_project;
+	}
+
+	public void setUser_project(User user_project) {
+		this.user_project = user_project;
 	}
 }
