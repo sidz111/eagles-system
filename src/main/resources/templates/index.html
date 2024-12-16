@@ -1,147 +1,265 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Eagles</title>
-    <style>
-        /* General body styling */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+	rel="stylesheet">
+
+<title>Eagles</title>
+<style>
+/* General body styling */
 body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+	font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
 }
 
 /* Content area styling */
 .content {
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-top: 40px;
-    padding: 0 20px;
+	display: flex;
+	justify-content: start;
+	flex-wrap: wrap;
+	gap: 30px;
+	margin-top: 40px;
+	padding: 0 20px;
 }
 
+/* Card styling for user role options */
 .card {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 40px;
-    border-radius: 10px;
-    width: 50%;
-    text-align: center;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 30px;
-    color: #ecf0f1;
+	background: rgba(0, 0, 0, 0.7);
+	padding: 40px;
+	border-radius: 10px;
+	width: 50%;
+	text-align: center;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
+	transition: all 0.3s ease-in-out;
+	margin-bottom: 30px;
+	color: #ecf0f1;
 }
-
 
 .card h4 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #ecf0f1;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+	font-size: 1.6rem;
+	font-weight: 600;
+	color: #ecf0f1;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
 }
 
 /* Button within each section */
 .card .btn {
-    background-color: #9b59b6;
-    color: white;
-    padding: 12px 30px;
-    font-size: 1.1rem;
-    border-radius: 10px;
-    margin: 5px;
-    font-weight: 600;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+	background-color: #9b59b6;
+	color: white;
+	padding: 12px 30px;
+	font-size: 1.1rem;
+	border-radius: 10px;
+	margin: 5px;
+	font-weight: 600;
+	border: none;
+	text-transform: uppercase;
+	letter-spacing: 2px;
 }
 
 /* Media query for mobile */
-@media (max-width: 768px) {
-    .user-info {
-        padding: 20px;
-    }
-
-    .user-info h2 {
-        font-size: 2rem;
-    }
-
-    .content {
-        grid-template-columns: 1fr;
-        padding: 0 10px;
-    }
-
-    .card {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .card h4 {
-        font-size: 1.4rem;
-    }
-
-    .card .btn {
-        padding: 10px 25px;
-        font-size: 1rem;
-    }
+@media ( max-width : 768px) {
+	.user-info {
+		padding: 20px;
+	}
+	.user-info h2 {
+		font-size: 2rem;
+	}
+	.content {
+		grid-template-columns: 1fr;
+		padding: 0 10px;
+	}
+	.card {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+	.card h4 {
+		font-size: 1.4rem;
+	}
+	.card .btn {
+		padding: 10px 25px;
+		font-size: 1rem;
+	}
 }
-        
-    </style>
+
+/* Chat/Notification Panel */
+.content2 {
+	position: fixed;
+	top: 20%;
+	right: 0;
+	width: 30%;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	border-radius: 10px 0 0 10px;
+	padding: 0.3%;
+	box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.5);
+	overflow-y: auto;
+	max-height: 70%;
+	transition: transform 0.3s ease-in-out;
+	transform: translateX(99%);
+}
+
+.content2.active {
+	transform: translateX(0);
+}
+
+.content2 h4 {
+	font-size: 1.6rem;
+	font-weight: 600;
+	color: #ecf0f1;
+	margin-bottom: 2px;
+	text-align: center;
+}
+
+.content2 .table {
+	background-color: rgba(0, 0, 0, 0.6);
+	color: white;
+}
+
+.content2 .table th, .content2 .table td {
+	text-align: center;
+}
+
+/* Button to open the notifications panel */
+.open-notifications {
+	position: fixed;
+	top: 10%;
+	right: 1%;
+	background-color: #9b59b6;
+	color: white;
+	border: none;
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	font-size: 1.5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+	transition: background-color 0.3s ease;
+}
+
+.open-notifications:hover {
+	background-color: #8e44ad;
+}
+</style>
 </head>
 <body>
-    <div th:replace="~{base :: header}"></div>
-    
-    <!-- User Info Section -->
-    <div class="container">
+	<div th:replace="~{base :: header}"></div>
 
-    <!-- Conditional Content Based on User Role -->
-    <div class="content">
-        <th:block th:unless="${user == null}">
-            <th:block th:if="${user.role == 'ROLE_ADMIN'}">
-                <div class="card">
-                    <h4>Admin Options</h4>
-                    <a class="btn btn-primary" th:href="@{'/'}">Admin Home</a>
-                    <a class="btn btn-primary" th:href="@{'/admin/add-user'}">Add User</a>
-                </div>
-            </th:block>
+	<!-- User Info Section -->
+	<div class="container">
 
-            <th:block th:if="${user.role == 'ROLE_MANAGER'}">
-                <div class="card">
-                    <h4>Manager Options</h4>
-                    <a class="btn btn-primary" th:href="@{'/'}">Manager Home</a>
-                    <a class="btn btn-primary" th:href="@{'/manager/assign-project'}">Assign Project</a>
-                </div>
-            </th:block>
+		<!-- Conditional Content Based on User Role -->
+		<div class="content">
+			<th:block th:unless="${user == null}">
+				<th:block th:if="${user.role == 'ROLE_ADMIN'}">
+					<div class="card">
+						<h4>Admin Options</h4>
+						<a class="btn btn-primary" th:href="@{'/'}">Admin Home</a> <a
+							class="btn btn-primary" th:href="@{'/admin/add-user'}">Add
+							User</a>
+					</div>
+				</th:block>
 
-            <th:block th:if="${user.role == 'ROLE_EMPLOYEE'}">
-                <div class="card">
-                    <h4>Employee Options</h4>
-                    <a class="btn btn-primary" th:href="@{'/'}">Employee Home</a>
-                    <a class="btn btn-primary" th:href="@{'/employee/all-projects'}">All Projects</a>
-                    <a class="btn btn-primary" th:href="@{'/employee/all-reportings'}">My Reportings</a>
-                </div>
-            </th:block>
+				<th:block th:if="${user.role == 'ROLE_MANAGER'}">
+					<div class="card">
+						<h4>Manager Options</h4>
+						<a class="btn btn-primary" th:href="@{'/'}">Manager Home</a> <a
+							class="btn btn-primary" th:href="@{'/manager/assign-project'}">Assign
+							Project</a>
+					</div>
+				</th:block>
 
-            <th:block th:unless="${user.role == 'ROLE_EMPLOYEE'}">
-                <div class="card">
-                    <h4>General Options</h4>
-                    <a class="btn btn-primary" th:href="@{'/all-users'}">All Users</a>
-                    <a class="btn btn-primary" th:href="@{'/all-projects'}">All Projects</a>
-                    <a class="btn btn-primary" th:href="@{'/add-log'}">Add Reporting</a>
-                    <a class="btn btn-primary" th:href="@{'/all-reportings'}">All Reportings</a>
-                </div>
-            </th:block>
-        </th:block>
-    </div>
-</div>
+				<th:block th:if="${user.role == 'ROLE_EMPLOYEE'}">
+					<div class="card">
+						<h4>Employee Options</h4>
+						<a class="btn btn-primary" th:href="@{'/'}">Employee Home</a> <a
+							class="btn btn-primary" th:href="@{'/employee/all-projects'}">All
+							Projects</a> <a class="btn btn-primary"
+							th:href="@{'/employee/all-reportings'}">My Reportings</a>
+					</div>
+				</th:block>
 
+				<th:block th:unless="${user.role == 'ROLE_EMPLOYEE'}">
+					<div class="card">
+						<h4>General Options</h4>
+						<a class="btn btn-primary" th:href="@{'/all-users'}">All Users</a>
+						<a class="btn btn-primary" th:href="@{'/all-projects'}">All
+							Projects</a> <a class="btn btn-primary" th:href="@{'/add-log'}">Add
+							Reporting</a> <a class="btn btn-primary"
+							th:href="@{'/all-reportings'}">All Reportings</a> <a
+							class="btn btn-primary" th:href="@{'/add-notification'}">Add
+							Notification</a>
+					</div>
+				</th:block>
+			</th:block>
+		</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+		<!-- Notification Panel -->
+		<div class="content2">
+			<h4>Notifications</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<!-- <th>Id</th> -->
+						<th>By</th>
+						<th>Date</th>
+						<th>Message</th>
+						<th th:if="${user.role != 'ROLE_EMPLOYEE'}">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="n : ${notifications}">
+						<!-- <td th:text="${n.id}"></td> -->
+						<td th:text="${n.user_notifications.name}"></td>
+						<td th:text="${n.date}"></td>
+						<td th:text="${n.message}"></td>
+						<td>
+
+							<div th:each="na, stat: ${notifications_auth}">
+								<a
+									th:if="${stat.index == 0 && na.user_notifications.role == n.user_notifications.role && user.role != 'ROLE_EMPLOYEE'}"
+									th:href="@{'/remove-notification/' + ${n.id}}"
+									class="text-danger"> <i class="fa-solid fa-trash"
+									aria-hidden="true"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+	<!-- Button to open the notification panel -->
+	<button class="open-notifications" onclick="toggleNotifications()"><i class="fa fa-bell" style="font-size:95%"></i></button>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
+	<script>
+		// Function to toggle the notifications panel
+		function toggleNotifications() {
+			const notifications = document.querySelector('.content2');
+			notifications.classList.toggle('active');
+		}
+	</script>
+
 </body>
 </html>

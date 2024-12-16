@@ -1,5 +1,6 @@
 package com.eagle.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eagle.entities.Notifications;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
 import com.eagle.repository.UserRepository;
+import com.eagle.service.NotificationsService;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
@@ -33,6 +36,9 @@ public class HomeController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	NotificationsService notificationsService;
 
 	@GetMapping("/")
 	public String homePage(Model model) {
@@ -42,6 +48,8 @@ public class HomeController {
 		String username = authentication.getName();
 		User u = userRepository.findByEmail(username);
 		model.addAttribute("user", u);
+		model.addAttribute("notifications_auth", u.getNotifications());
+		model.addAttribute("notifications", notificationsService.getAllNotifications());
 		return "index";
 	}
 
@@ -115,4 +123,32 @@ public class HomeController {
 		return "view-user";
 		}
 	}
+	
+	@GetMapping("/add-notification")
+	public String getNotification() {
+		return "add-notification";
+	}
+	
+	@PostMapping("/add-notification")
+	public String addNotification(@RequestParam("message") String message,
+			RedirectAttributes redirectAttributes
+			) {
+		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(username);
+        Notifications notifications = new Notifications();
+        notifications.setMessage(message);
+        notifications.setUser_notifications(user);
+        notifications.setDate(new SimpleDateFormat("yyyy-MM-dd hh:mm").format(new Date()));
+        notificationsService.addNotifications(notifications);
+		return "redirect:/";
+	}
+	
+	@GetMapping("/remove-notification/{id}")
+	public String removeNotification(@PathVariable("id") Long id) {
+	    notificationsService.deleteNotification(id);
+	    return "redirect:/";
+	}
+
 }
+

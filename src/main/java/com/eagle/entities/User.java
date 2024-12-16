@@ -32,6 +32,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user_logs", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UserLogs> userLogs = new ArrayList<UserLogs>();
+	
+	@OneToMany(mappedBy = "user_notifications", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Notifications> notifications; 
 
 	public Long getId() {
 		return id;
@@ -137,9 +140,17 @@ public class User {
 		this.randomId = randomId;
 	}
 
+	public List<Notifications> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notifications> notifications) {
+		this.notifications = notifications;
+	}
+
 	public User(Long id, Long randomId, String name, String email, String password, String contact, String role,
 			String joinDate, String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
-			List<UserLogs> userLogs) {
+			List<UserLogs> userLogs, List<Notifications> notifications) {
 		super();
 		this.id = id;
 		this.randomId = randomId;
@@ -154,9 +165,11 @@ public class User {
 		this.isAccountLocked = isAccountLocked;
 		this.projects = projects;
 		this.userLogs = userLogs;
+		this.notifications = notifications;
 	}
 
 	public User() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 }
