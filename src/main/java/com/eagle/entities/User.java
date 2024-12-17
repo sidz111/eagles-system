@@ -35,6 +35,10 @@ public class User {
 	
 	@OneToMany(mappedBy = "user_notifications", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Notifications> notifications; 
+	
+	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Chatting> chattings = new ArrayList<>();
+
 
 	public Long getId() {
 		return id;
@@ -148,9 +152,17 @@ public class User {
 		this.notifications = notifications;
 	}
 
+	public List<Chatting> getChattings() {
+		return chattings;
+	}
+
+	public void setChattings(List<Chatting> chattings) {
+		this.chattings = chattings;
+	}
+
 	public User(Long id, Long randomId, String name, String email, String password, String contact, String role,
 			String joinDate, String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
-			List<UserLogs> userLogs, List<Notifications> notifications) {
+			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings) {
 		super();
 		this.id = id;
 		this.randomId = randomId;
@@ -166,6 +178,7 @@ public class User {
 		this.projects = projects;
 		this.userLogs = userLogs;
 		this.notifications = notifications;
+		this.chattings = chattings;
 	}
 
 	public User() {

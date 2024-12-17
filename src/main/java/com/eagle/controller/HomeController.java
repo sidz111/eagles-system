@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eagle.entities.Chatting;
 import com.eagle.entities.Notifications;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
+import com.eagle.repository.ChattingRepository;
 import com.eagle.repository.UserRepository;
+import com.eagle.service.ChattingService;
 import com.eagle.service.NotificationsService;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
@@ -24,6 +27,12 @@ import com.eagle.service.UserService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	ChattingService chattingService;
+	
+	@Autowired
+	ChattingRepository chattingRepository;
 
 	@Autowired
 	UserRepository userRepository;
@@ -149,6 +158,26 @@ public class HomeController {
 	    notificationsService.deleteNotification(id);
 	    return "redirect:/";
 	}
+	
+	@GetMapping("/chatt")
+	public String getChattings(Model model) {
+		model.addAttribute("chatts", chattingService.getAllChats());
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByEmail(username);
+		model.addAttribute("user", user);
+		return "chatt";
+	}
+
+	@PostMapping("/chatt")
+	public String addChatts(@RequestParam("message") String message, RedirectAttributes redirectAttributes) {
+	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    User user = userRepository.findByEmail(username);
+	    Chatting chatting = new Chatting();
+	    chatting.setMessage(message);
+	    chatting.setUser_chat(user);
+	    chatting.setTime(new SimpleDateFormat().format(new Date()));
+	    chattingRepository.save(chatting);
+	    return "redirect:/chatt";
+	}
 
 }
-
