@@ -5,17 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.eagle.entities.Project;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
+import com.eagle.repository.UserRepository;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
@@ -39,6 +37,9 @@ import jakarta.mail.internet.MimeMessage;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -58,6 +59,7 @@ public class AdminController {
 	@GetMapping("/add-user")
 	public String showAddUserForm(Model model) {
 		model.addAttribute("user", new User());
+		model.addAttribute("managers", userService.getUserByRole("ROLE_MANAGER"));
 		return "admins/add-user";
 	}
 
@@ -65,8 +67,8 @@ public class AdminController {
 	public String addUser(Model model, @RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("contact") String contact,
 			@RequestParam("role") String role, @RequestParam("joinDate") String joinDate,
-			@RequestParam("designation") String designation, @RequestParam("profileImage") MultipartFile profileImage,
-			RedirectAttributes redirectAttributes) {
+			 @RequestParam("under") Long managerId, @RequestParam("designation") String designation,
+			@RequestParam("profileImage") MultipartFile profileImage, RedirectAttributes redirectAttributes) {
 		if (userService.getUserByEmail(email) != null) {
 			model.addAttribute("error", email + "already used!!!");
 			return "redirect:/admin/add-user";
@@ -81,6 +83,24 @@ public class AdminController {
 			u.setJoinDate(joinDate);
 			u.setDesignation(designation);
 			u.setIsAccountLocked(false);
+			if (managerId != null) {
+			    if (managerId == 0) {
+			        u.setManager(null);
+			    } else {
+			        User manager = userService.getUserById(managerId);
+			        u.setManager(manager);
+
+			        
+			        List<User> employees = manager.getEmployees();
+			        if (employees == null) {
+			            employees = new ArrayList<>();
+			        }
+			        employees.add(u);
+			        manager.setEmployees(employees);
+			    }
+			}
+
+	        
 			u.setProfileImage(profileImage.getOriginalFilename());
 			try {
 				File saveFile = new File("src/main/resources/static/images/users");
@@ -138,5 +158,16 @@ public class AdminController {
 		projects.clear();
 		userService.deleteUserById(id);
 		return "redirect:/all-users";
+	}
+	
+	@GetMapping("/all-users")
+	public String getAllUsers(Model model) {
+		org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext()
+				.getAuthentication();
+		String username = authentication.getName();
+		User u = userRepository.findByEmail(username);
+		model.addAttribute("user", u);
+		model.addAttribute("users", userRepository.findAll());
+		return "admins/all-users";
 	}
 }

@@ -1,6 +1,7 @@
 package com.eagle.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,13 +18,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eagle.entities.Project;
 import com.eagle.entities.User;
+import com.eagle.entities.UserLogs;
+import com.eagle.repository.UserLogsRepository;
 import com.eagle.repository.UserRepository;
 import com.eagle.service.ProjectService;
+import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
 
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+	
+	@Autowired
+	UserLogsService userLogsService;
+	
+	@Autowired
+	UserLogsRepository userLogsRepository;
 
     @Autowired
     private ProjectService projectService;
@@ -73,17 +83,24 @@ public class ManagerController {
             @PathVariable("remark") Character remark,
             RedirectAttributes redirectAttributes
     ) {
-        Project project = projectService.getProjectById(id); // Ensure the project exists
+        Project project = projectService.getProjectById(id);
         if (project != null) {
-            project.setRemark(remark); // Set the new remark
-            project.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date())); // Set end date
-            projectService.updateProject(project); // Save the updated project
+            project.setRemark(remark);
+            project.setEndDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            projectService.updateProject(project);
             redirectAttributes.addFlashAttribute("success", "Project updated successfully!");
         } else {
             redirectAttributes.addFlashAttribute("error", "Project not found or already completed!");
         }
-        return "redirect:/all-projects"; // Redirect to the projects list
+        return "redirect:/all-projects";
     }
 
-
+	    @GetMapping("/my-team")
+	    public String getTeam(Model model) {
+	    	 String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    	    User loggedUser = userRepository.findByEmail(username);
+	    	    List<User> employees = userRepository.findEmployeesByManager(loggedUser);
+	    	    model.addAttribute("users", employees);
+	        return "team";
+	    }
 }

@@ -87,6 +87,19 @@ body {
 					</select>
 				</div>
 
+				<div class="mb-3">
+					<label for="under" class="form-label">Under Manager</label> <select
+						class="form-select" id="under" name="under" required>
+						<!-- Default Option -->
+						<option value="0" selected>None</option>
+						<!-- Manager List -->
+						<option th:each="m : ${managers}" th:value="${m.id}"
+							th:text="${m.name}"></option>
+					</select>
+				</div>
+
+
+
 				<!-- Join Date -->
 				<div class="mb-3">
 					<label for="joinDate" class="form-label">Join Date</label> <input

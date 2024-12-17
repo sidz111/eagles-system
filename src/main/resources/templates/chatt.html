@@ -123,7 +123,8 @@ body {
 			<div th:each="chat : ${chatts}" class="message"
 				th:classappend="${chat.user_chat.email} == ${user.email} ? 'right' : ''">
 				<div class="sender" th:text="${chat.user_chat.name}">Sender</div>
-				<div class="content" th:text="${chat.message} + ${chat.time}">Message</div>
+				<div class="content" th:text="${chat.message} + ' - ' + ${chat.time}">Message</div>
+				
 			</div>
 		</div>
 

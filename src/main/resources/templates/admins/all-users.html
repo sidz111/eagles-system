@@ -20,6 +20,7 @@
 					<td>Email</td>
 					<!-- <td>Contact</td> -->
 					<td>Role</td>
+					<td>Under</td>
 					<td>JoinDate</td>
 					<td>Designation</td>
 					<!-- <td>isAccountLocked</td> -->
@@ -38,6 +39,9 @@
 					<td th:if="${u.role} == ROLE_EMPLOYEE" th:text="Employee"></td>
 					<td th:if="${u.role} == ROLE_MANAGER" th:text="Manager"></td>
 
+					<td th:if="${u.role} == ROLE_ADMIN" class="text-danger" th:text="${'ADMIN'}"></td>
+					<td th:if="${u.role} == ROLE_MANAGER" class="text-warning" th:text="${'MANAGER'}"></td>
+					<td th:if="${u.role} == ROLE_EMPLOYEE" th:text="${u.manager != null ? u.manager.name : '------'}"></td>
 					<td th:text="${u.joinDate}"></td>
 					<td th:text="${u.designation}"></td>
 					<!-- <td th:text="${u.isAccountLocked}"></td> -->

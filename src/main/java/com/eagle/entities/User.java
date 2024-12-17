@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -32,13 +34,19 @@ public class User {
 
 	@OneToMany(mappedBy = "user_logs", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UserLogs> userLogs = new ArrayList<UserLogs>();
-	
+
 	@OneToMany(mappedBy = "user_notifications", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Notifications> notifications; 
-	
+	private List<Notifications> notifications;
+
 	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Chatting> chattings = new ArrayList<>();
 
+	@ManyToOne
+	@JoinColumn(name = "manager_id")
+	private User manager;
+
+	@OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<User> employees = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -160,9 +168,26 @@ public class User {
 		this.chattings = chattings;
 	}
 
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
+	public List<User> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(List<User> employees) {
+		this.employees = employees;
+	}
+
 	public User(Long id, Long randomId, String name, String email, String password, String contact, String role,
 			String joinDate, String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
-			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings) {
+			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings, User manager,
+			List<User> employees) {
 		super();
 		this.id = id;
 		this.randomId = randomId;
@@ -179,6 +204,8 @@ public class User {
 		this.userLogs = userLogs;
 		this.notifications = notifications;
 		this.chattings = chattings;
+		this.manager = manager;
+		this.employees = employees;
 	}
 
 	public User() {

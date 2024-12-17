@@ -2,6 +2,7 @@ package com.eagle.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import com.eagle.entities.Notifications;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
 import com.eagle.repository.ChattingRepository;
+import com.eagle.repository.UserLogsRepository;
 import com.eagle.repository.UserRepository;
 import com.eagle.service.ChattingService;
 import com.eagle.service.NotificationsService;
@@ -27,6 +29,9 @@ import com.eagle.service.UserService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	UserLogsRepository userLogsRepository;
 	
 	@Autowired
 	ChattingService chattingService;
@@ -99,6 +104,9 @@ public class HomeController {
 
 	@GetMapping("/all-reportings")
 	public String getAllReportings(Model model) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user = userRepository.findByEmail(username);
+		model.addAttribute("user", user);
 		model.addAttribute("reportings", userLogsService.getAllUserLogs());
 		return "all-reportings";
 	}

@@ -54,6 +54,11 @@
 								class="nav-link" th:href="@{'/manager/assign-project'}">Assign
 									Project</a></li>
 						</th:block>
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role == 'ROLE_MANAGER'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/manager/my-team'}">My Team</a></li>
+						</th:block>
 
 						<th:block th:unless="${user == null}">
 							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
@@ -62,8 +67,8 @@
 						</th:block>
 
 						<th:block th:unless="${user == null}">
-							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
-								class="nav-link" th:href="@{'/all-users'}">All Users</a></li>
+							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/admin/all-users'}">All Users</a></li>
 						</th:block>
 						
 						<th:block th:unless="${user == null}">

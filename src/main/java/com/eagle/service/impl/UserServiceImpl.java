@@ -1,6 +1,5 @@
 package com.eagle.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,5 +99,20 @@ public class UserServiceImpl implements UserService{
 		userRepository.deleteById(id);
 	}
 
+	@Override
+	public List<User> getUserByRole(String role) {
+		List<User> users = userRepository.findByRole(role);
+		if(users.isEmpty()) {
+			return null;
+		}
+		else {
+			return users;
+		}
+	}
+	
+	@Override
+	public List<User> getEmployeesByManager(User manager) {
+	    return userRepository.findEmployeesByManager(manager);
+	}
 
 }

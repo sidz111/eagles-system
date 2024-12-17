@@ -19,6 +19,8 @@
 					<td>Name</td>
 					<td>Reporting message</td>
 					<td>Timing</td>
+					<!-- <td>Timing</td>
+					<td>Timing</td> -->
 				</tr>
 			</thead>
 			<tbody>
@@ -27,11 +29,12 @@
 					<td th:text="${r.user.name}"></td>
 					<td th:utext="${r.logDescription}"></td>
 					<td th:text="${r.timestamp}"></td>
+					<!-- <td th:text="${r.user.name}"></td>
+					<td th:text="${user.name}"></td> -->
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	
 	<a class="btn bg-warning" href="/">Back to Home</a>
 </body>
 </html>

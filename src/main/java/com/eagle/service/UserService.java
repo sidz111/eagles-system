@@ -8,7 +8,9 @@ public interface UserService {
 	List<User> getUsersByName(String name);
 	List<User> getUsersByJoinDate(String joinDate);
 	List<User> getUsersByDesignation(String designation);
+	List<User> getUserByRole(String role);  // new method added
 	List<User> getAllUsers();
+	List<User> getEmployeesByManager(User manager); // new method added 2nd 
 	
 	User getUserById(Long id);
 	User getUserByEmail(String email);
