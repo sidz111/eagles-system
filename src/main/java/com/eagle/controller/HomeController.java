@@ -2,7 +2,6 @@ package com.eagle.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -189,7 +188,10 @@ public class HomeController {
 	}
 	
 	@GetMapping("/meeting")
-	public String getMeeting() {
+	public String getMeeting(Model model) {
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		User u = userService.getUserByEmail(username);
+		model.addAttribute("user", u);
 		return "meeting";
 	}
 
