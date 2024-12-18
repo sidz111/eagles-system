@@ -187,5 +187,10 @@ public class HomeController {
 	    chattingRepository.save(chatting);
 	    return "redirect:/chatt";
 	}
+	
+	@GetMapping("/meeting")
+	public String getMeeting() {
+		return "meeting";
+	}
 
 }
