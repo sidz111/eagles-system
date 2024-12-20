@@ -40,6 +40,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Chatting> chattings = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<GroupChat> Group_chatting = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(name = "manager_id")
@@ -183,13 +186,24 @@ public class User {
 	public void setEmployees(List<User> employees) {
 		this.employees = employees;
 	}
+	
+	
 
-	public User(Long id, Long randomId, String name, String email, String password, String contact, String role,
-			String joinDate, String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
-			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings, User manager,
-			List<User> employees) {
+	public List<GroupChat> getGroup_chatting() {
+		return Group_chatting;
+	}
+
+	public void setGroup_chatting(List<GroupChat> group_chatting) {
+		Group_chatting = group_chatting;
+	}
+
+	
+
+	public User(Long randomId, String name, String email, String password, String contact, String role, String joinDate,
+			String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
+			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings,
+			List<GroupChat> group_chatting, User manager, List<User> employees) {
 		super();
-		this.id = id;
 		this.randomId = randomId;
 		this.name = name;
 		this.email = email;
@@ -204,6 +218,7 @@ public class User {
 		this.userLogs = userLogs;
 		this.notifications = notifications;
 		this.chattings = chattings;
+		Group_chatting = group_chatting;
 		this.manager = manager;
 		this.employees = employees;
 	}

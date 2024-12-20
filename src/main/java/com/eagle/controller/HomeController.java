@@ -1,7 +1,9 @@
 package com.eagle.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,13 +16,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eagle.entities.Chatting;
+import com.eagle.entities.GroupChat;
 import com.eagle.entities.Notifications;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
 import com.eagle.repository.ChattingRepository;
+import com.eagle.repository.GroupChatRepository;
 import com.eagle.repository.UserLogsRepository;
 import com.eagle.repository.UserRepository;
 import com.eagle.service.ChattingService;
+import com.eagle.service.GroupChatService;
 import com.eagle.service.NotificationsService;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
@@ -28,6 +33,12 @@ import com.eagle.service.UserService;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	GroupChatService groupChatService;
+	
+	@Autowired
+	GroupChatRepository groupChatRepository;
 	
 	@Autowired
 	UserLogsRepository userLogsRepository;
@@ -127,18 +138,18 @@ public class HomeController {
 		return "profile";
 	}
 
-	@GetMapping("/view-user/{id}")
-    	public String viewUser(@PathVariable Long id, Model model) {
-		User u = userService.getUserById(id);
-		if(u==null) {
-			model.addAttribute("error", "User not found with id: "+id);
-			return "redirect:/all-users";
-		}
-		else {
-		model.addAttribute("user", u);
-		return "view-user";
-		}
-	}
+//	@GetMapping("/view-user/{id}")
+//    	public String viewUser(@PathVariable Long id, Model model) {
+//		User u = userService.getUserById(id);
+//		if(u==null) {
+//			model.addAttribute("error", "User not found with id: "+id);
+//			return "redirect:/all-users";
+//		}
+//		else {
+//		model.addAttribute("user", u);
+//		return "view-user";
+//		}
+//	}
 	
 	@GetMapping("/add-notification")
 	public String getNotification() {
@@ -194,5 +205,83 @@ public class HomeController {
 		model.addAttribute("user", u);
 		return "meeting";
 	}
+	
+	
+//	@GetMapping("/group-chat")
+//	public String getGroupChat(Model model) {
+//	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//	    User currentUser = userService.getUserByEmail(username);
+//	    List<User> allEmployees = new ArrayList<>();
+//
+//	    if (currentUser.getManager() != null) {
+//	        Long managerId = currentUser.getManager().getId();
+//	        allEmployees = userService.getEmployeesByManagerId(managerId);
+//	        User manager = userService.getUserById(managerId);
+//	        allEmployees.add(manager);
+//	    } else {
+//	        allEmployees = userService.getEmployeesByManagerId(currentUser.getId());
+//	        allEmployees.add(currentUser);
+//	    }
+//	    List<GroupChat> chats = groupChatRepository.findAll();
+//	    List<GroupChat> allChats = groupChatRepository.findAllChatsByUserId(currentUser.getId());    // working in progress
+//	    
+//	    model.addAttribute("participants", allEmployees);
+//	    model.addAttribute("chatts", chats);
+//	    model.addAttribute("user", currentUser);
+//
+//	    return "group-chat";
+//	}
+	
+	@GetMapping("/group-chat")
+	public String getGroupChat(Model model) {
+	    // Get the currently logged-in user's username
+	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    User currentUser = userService.getUserByEmail(username);
+	    
+	    // Retrieve the list of employees and the manager
+	    List<User> allEmployees = new ArrayList<>();
+	    if (currentUser.getManager() != null) {
+	        Long managerId = currentUser.getManager().getId();
+	        allEmployees = userService.getEmployeesByManagerId(managerId);
+	        User manager = userService.getUserById(managerId);
+	        allEmployees.add(manager); // Include the manager
+	    } else {
+	        allEmployees = userService.getEmployeesByManagerId(currentUser.getId());
+	        allEmployees.add(currentUser); // Include the user as they manage themselves
+	    }
 
+	    // Get the IDs of all users with the same manager
+	    List<Long> userIds = allEmployees.stream().map(User::getId).toList();
+
+	    // Fetch the group chats involving these users
+	    List<GroupChat> relatedChats = groupChatService.getChatsByUserIds(userIds);
+
+	    // Add attributes for Thymeleaf template
+	    model.addAttribute("participants", allEmployees);
+	    model.addAttribute("chatts", relatedChats);
+	    model.addAttribute("user", currentUser);
+
+	    return "group-chat";
+	}
+
+	
+	@PostMapping("/group-chat")
+	public String addGroupChat(@RequestParam("message") String message, RedirectAttributes redirectAttributes) {
+	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    User user = userRepository.findByEmail(username);
+	    
+	    if (user == null) {
+	        redirectAttributes.addFlashAttribute("error", "User not found.");
+	        return "redirect:/group-chat";
+	    }
+
+	    GroupChat groupChat = new GroupChat();
+	    groupChat.setMessage(message);
+	    groupChat.setUser_chat(user);
+	    groupChat.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+
+	    groupChatRepository.save(groupChat);
+
+	    return "redirect:/group-chat"; 
+	}
 }

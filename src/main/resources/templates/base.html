@@ -92,6 +92,11 @@
 							<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="nav-item"><a
 								class="nav-link" th:href="@{'/employee/all-reportings'}">My Reportings</a></li>
 						</th:block>
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role != 'ROLE_ADMIN'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/group-chat'}">Group Chatting</a></li>
+						</th:block>
 
 						<li class="nav-item"><a
 								class="nav-link" th:href="@{'/chatt'}">Chatting Room</a></li>

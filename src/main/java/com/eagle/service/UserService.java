@@ -11,7 +11,7 @@ public interface UserService {
 	List<User> getUserByRole(String role);  // new method added
 	List<User> getAllUsers();
 	List<User> getEmployeesByManager(User manager); // new method added 2nd 
-	
+	List<User> getEmployeesByManagerId(Long id);   // new method 3rd
 	User getUserById(Long id);
 	User getUserByEmail(String email);
 	

@@ -115,4 +115,9 @@ public class UserServiceImpl implements UserService{
 	    return userRepository.findEmployeesByManager(manager);
 	}
 
+	@Override
+	public List<User> getEmployeesByManagerId(Long id) {
+		return this.userRepository.findEmployeesByManagerId(id);
+	}
+
 }

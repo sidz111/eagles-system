@@ -24,10 +24,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.eagle.entities.Chatting;
+import com.eagle.entities.GroupChat;
 import com.eagle.entities.Project;
 import com.eagle.entities.User;
 import com.eagle.entities.UserLogs;
+import com.eagle.repository.GroupChatRepository;
 import com.eagle.repository.UserRepository;
+import com.eagle.service.ChattingService;
+import com.eagle.service.GroupChatService;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
@@ -37,6 +42,15 @@ import jakarta.mail.internet.MimeMessage;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+	
+	@Autowired
+	ChattingService chattingService;
+	
+	@Autowired
+	GroupChatRepository groupChatRepository;
+	
+	@Autowired
+	GroupChatService groupChatService;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -154,10 +168,22 @@ public class AdminController {
 	public String deleteUser(@PathVariable Long id) {
 		List<UserLogs> logs = (List<UserLogs>) userLogsService.getUserLogsByUserId(id);
 		List<Project> projects = projectService.getProjectsByUserId(id);
-		logs.clear();
-		projects.clear();
+		List<GroupChat> groupChats = groupChatService.getChatsByUserId(id);
+		List<Chatting> chattings = chattingService.getChatsByUserId(id);
+		if(chattings!=null) {
+			chattings.clear();			
+		}
+		if(groupChats!=null) {
+			groupChats.clear();			
+		}
+		if(logs!=null) {
+			logs.clear();			
+		}
+		if(projects!=null) {
+			projects.clear();			
+		}
 		userService.deleteUserById(id);
-		return "redirect:/all-users";
+		return "redirect:/admin/all-users";
 	}
 	
 	@GetMapping("/all-users")
@@ -170,4 +196,17 @@ public class AdminController {
 		model.addAttribute("users", userRepository.findAll());
 		return "admins/all-users";
 	}
+	
+	@GetMapping("/view-user/{id}")
+	public String viewUser(@PathVariable Long id, Model model) {
+	User u = userService.getUserById(id);
+	if(u==null) {
+		model.addAttribute("error", "User not found with id: "+id);
+		return "redirect:/all-users";
+	}
+	else {
+	model.addAttribute("user", u);
+	return "view-user";
+	}
+}
 }
