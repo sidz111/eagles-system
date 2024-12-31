@@ -234,32 +234,28 @@ public class HomeController {
 	
 	@GetMapping("/group-chat")
 	public String getGroupChat(Model model) {
-	    // Get the currently logged-in user's username
 	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
 	    User currentUser = userService.getUserByEmail(username);
 	    
-	    // Retrieve the list of employees and the manager
 	    List<User> allEmployees = new ArrayList<>();
 	    if (currentUser.getManager() != null) {
 	        Long managerId = currentUser.getManager().getId();
 	        allEmployees = userService.getEmployeesByManagerId(managerId);
 	        User manager = userService.getUserById(managerId);
-	        allEmployees.add(manager); // Include the manager
+	        allEmployees.add(manager);
 	    } else {
 	        allEmployees = userService.getEmployeesByManagerId(currentUser.getId());
-	        allEmployees.add(currentUser); // Include the user as they manage themselves
+	        allEmployees.add(currentUser);
 	    }
 
-	    // Get the IDs of all users with the same manager
 	    List<Long> userIds = allEmployees.stream().map(User::getId).toList();
 
-	    // Fetch the group chats involving these users
 	    List<GroupChat> relatedChats = groupChatService.getChatsByUserIds(userIds);
 
-	    // Add attributes for Thymeleaf template
 	    model.addAttribute("participants", allEmployees);
 	    model.addAttribute("chatts", relatedChats);
 	    model.addAttribute("user", currentUser);
+	    model.addAttribute("manager", currentUser.getManager());
 
 	    return "group-chat";
 	}
