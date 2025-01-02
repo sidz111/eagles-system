@@ -23,11 +23,11 @@
 						<td>End Date</td>
 						<td>Assigned By</td>
 						<td>Remark</td>
-						<td th:if="${user.role}=='ROLE_MANAGER'">Rate</td>
+						<td th:if="${user.role}=='ROLE_MANAGER'">Status</td>
 					</tr>
 				</thead>
 				<tbody>
-					<tr tr class="text-center" th:each="p: ${projects}">
+					<tr class="text-center" th:each="p: ${projects}">
 						<td th:text="${p.id}"></td>
 						<td th:text="${p.projectName}"></td>
 						<td th:text="${p.user.name}"></td>
@@ -43,7 +43,12 @@
 							th:text="${p.remark}"></td>
 						<td th:if="${p.remark}=='C'" class="text-danger"
 							th:text="${p.remark}"></td>
-
+							
+						<td th:if="${p.remark}==null" class="text-danger"
+							th:text="${'---'}"></td>
+						
+						<td th:text="${p.status}"></td>
+						<td class="" th:if="${p.status=='Finalized'}" th:text="${p.status}"></td>
 
 						<td th:if="${user.role}=='ROLE_MANAGER'">
 						<a class="btn bg-primary" 

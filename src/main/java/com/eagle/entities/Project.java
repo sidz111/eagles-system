@@ -26,6 +26,12 @@ public class Project {
 
 	private Character remark;
 	
+	private String description;
+	
+	private String expectedEndDate;
+	
+	private String status;
+	
 	private List<String> suggesions;
 
 	@ManyToOne
@@ -103,5 +109,29 @@ public class Project {
 
 	public void setUser_project(User user_project) {
 		this.user_project = user_project;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getExpectedEndDate() {
+		return expectedEndDate;
+	}
+
+	public void setExpectedEndDate(String expectedEndDate) {
+		this.expectedEndDate = expectedEndDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

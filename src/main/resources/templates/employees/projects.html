@@ -21,6 +21,10 @@
 					<td>endDate</td>
 					<td>assignBy</td>
 					<td>remark</td>
+					<td>Status</td>
+					<td>Expected End Date</td>
+					<td>Description</td>
+					<td>Suggestions</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -34,6 +38,11 @@
 					<td th:if="${p.remark}=='A'" class="text-primary" th:text="${p.remark}"></td>
 					<td th:if="${p.remark}=='B'" class="text-warning" th:text="${p.remark}"></td>
 					<td th:if="${p.remark}=='C'" class="text-danger" th:text="${p.remark}"></td>
+					<td th:if="${p.remark}==null" class="text-success fw-bold" th:text="${'Running'}"></td>
+					<td th:text="${p.status}"></td>
+					<td th:text="${p.expectedEndDate}"></td>
+					<td th:text="${p.description}"></td>
+					<td th:text="${p.suggesions}"></td>
 				</tr>
 			</tbody>
 		</table>

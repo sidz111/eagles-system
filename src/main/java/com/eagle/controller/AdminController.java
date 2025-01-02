@@ -42,16 +42,16 @@ import jakarta.mail.internet.MimeMessage;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-	
+
 	@Autowired
 	ChattingService chattingService;
-	
+
 	@Autowired
 	GroupChatRepository groupChatRepository;
-	
+
 	@Autowired
 	GroupChatService groupChatService;
-	
+
 	@Autowired
 	UserRepository userRepository;
 
@@ -81,7 +81,7 @@ public class AdminController {
 	public String addUser(Model model, @RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("password") String password, @RequestParam("contact") String contact,
 			@RequestParam("role") String role, @RequestParam("joinDate") String joinDate,
-			 @RequestParam("under") Long managerId, @RequestParam("designation") String designation,
+			@RequestParam("under") Long managerId, @RequestParam("designation") String designation,
 			@RequestParam("profileImage") MultipartFile profileImage, RedirectAttributes redirectAttributes) {
 		if (userService.getUserByEmail(email) != null) {
 			model.addAttribute("error", email + "already used!!!");
@@ -98,23 +98,21 @@ public class AdminController {
 			u.setDesignation(designation);
 			u.setIsAccountLocked(false);
 			if (managerId != null) {
-			    if (managerId == 0) {
-			        u.setManager(null);
-			    } else {
-			        User manager = userService.getUserById(managerId);
-			        u.setManager(manager);
+				if (managerId == 0) {
+					u.setManager(null);
+				} else {
+					User manager = userService.getUserById(managerId);
+					u.setManager(manager);
 
-			        
-			        List<User> employees = manager.getEmployees();
-			        if (employees == null) {
-			            employees = new ArrayList<>();
-			        }
-			        employees.add(u);
-			        manager.setEmployees(employees);
-			    }
+					List<User> employees = manager.getEmployees();
+					if (employees == null) {
+						employees = new ArrayList<>();
+					}
+					employees.add(u);
+					manager.setEmployees(employees);
+				}
 			}
 
-	        
 			u.setProfileImage(profileImage.getOriginalFilename());
 			try {
 				File saveFile = new File("src/main/resources/static/images/users");
@@ -170,22 +168,22 @@ public class AdminController {
 		List<Project> projects = projectService.getProjectsByUserId(id);
 		List<GroupChat> groupChats = groupChatService.getChatsByUserId(id);
 		List<Chatting> chattings = chattingService.getChatsByUserId(id);
-		if(chattings!=null) {
-			chattings.clear();			
+		if (chattings != null) {
+			chattings.clear();
 		}
-		if(groupChats!=null) {
-			groupChats.clear();			
+		if (groupChats != null) {
+			groupChats.clear();
 		}
-		if(logs!=null) {
-			logs.clear();			
+		if (logs != null) {
+			logs.clear();
 		}
-		if(projects!=null) {
-			projects.clear();			
+		if (projects != null) {
+			projects.clear();
 		}
 		userService.deleteUserById(id);
 		return "redirect:/admin/all-users";
 	}
-	
+
 	@GetMapping("/all-users")
 	public String getAllUsers(Model model) {
 		org.springframework.security.core.Authentication authentication = SecurityContextHolder.getContext()
@@ -196,17 +194,16 @@ public class AdminController {
 		model.addAttribute("users", userRepository.findAll());
 		return "admins/all-users";
 	}
-	
+
 	@GetMapping("/view-user/{id}")
 	public String viewUser(@PathVariable Long id, Model model) {
-	User u = userService.getUserById(id);
-	if(u==null) {
-		model.addAttribute("error", "User not found with id: "+id);
-		return "redirect:/all-users";
+		User u = userService.getUserById(id);
+		if (u == null) {
+			model.addAttribute("error", "User not found with id: " + id);
+			return "redirect:/all-users";
+		} else {
+			model.addAttribute("user", u);
+			return "view-user";
+		}
 	}
-	else {
-	model.addAttribute("user", u);
-	return "view-user";
-	}
-}
 }

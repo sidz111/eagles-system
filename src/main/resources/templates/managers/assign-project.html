@@ -1,66 +1,95 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-        crossorigin="anonymous">
-    <title>Assign Project</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<title>Assign Project</title>
 </head>
 <body class="bg-light">
-<div th:replace="~{base :: header}"></div>
+	<div th:replace="~{base :: header}"></div>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <div class="card shadow border-0">
-                <div class="card-header bg-primary text-white text-center">
-                    <h3>Assign Project to Employee</h3>
-                </div>
-                <div class="card-body">
+	<div class="container mt-5">
+		<div class="row justify-content-center">
+			<div class="col-lg-6 col-md-8 col-sm-10">
+				<div class="card shadow border-0">
+					<div class="card-header bg-primary text-white text-center">
+						<h3>Assign Project to Employee</h3>
+					</div>
+					<div class="card-body">
 
-                    <!-- Display Success or Error Messages -->
-                    <div class="mb-3">
-                        <p th:if="${success}" th:text="${success}" class="text-success fw-bold"></p>
-                        <p th:if="${error}" th:text="${error}" class="text-danger fw-bold"></p>
-                    </div>
+						<!-- Display Success or Error Messages -->
+						<div class="mb-3">
+							<p th:if="${success}" th:text="${success}"
+								class="text-success fw-bold"></p>
+							<p th:if="${error}" th:text="${error}"
+								class="text-danger fw-bold"></p>
+						</div>
 
-                    <form action="/manager/assign-project" method="post">
-                        <div class="mb-3">
-                            <label for="employeeId" class="form-label">Employee ID:</label>
-                            <input 
-                                type="number" 
-                                name="employeeId" 
-                                id="employeeId" 
-                                class="form-control" 
-                                placeholder="Enter Employee ID" 
-                                required>
-                        </div>
+						<form action="/manager/assign-project" method="post">
+							<div class="mb-3">
+								<label for="employeeId" class="form-label">Employee ID:</label>
+								<input type="number" name="employeeId" id="employeeId"
+									class="form-control" placeholder="Enter Employee ID" required>
+							</div>
 
-                        <div class="mb-3">
-                            <label for="projectName" class="form-label">Project Name:</label>
-                            <input 
-                                type="text" 
-                                name="projectName" 
-                                id="projectName" 
-                                class="form-control" 
-                                placeholder="Enter Project Name" 
-                                required>
-                        </div>
+							<div class="mb-3">
+								<label for="projectName" class="form-label">Project
+									Name:</label> <input type="text" name="projectName" id="projectName"
+									class="form-control" placeholder="Enter Project Name" required>
+							</div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Assign Project</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+						
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-zBT5m5EmmkFxZpNuj5J2aHeWqxyOHABsm2h4UIF1AqOjaG9+9EfhGd1O53wbvGw9" crossorigin="anonymous"></script>
+
+							<div class="mb-3">
+								<label for="status" class="form-label">status:</label> <select
+									class="form-select" id="status" name="status" required>
+									<option value="">Select Status</option>
+									<option value="In Development">In Development</option>
+									<option value="Hosting">Hosting</option>
+									<option value="Testing">Testing</option>
+									<option value="Bug Fixing">Bug Fixing</option>
+									<option value="Retesting">Retesting</option>
+									<option value="Finalized">Finalized</option>
+								</select>
+							</div>
+
+
+
+
+							<div class="mb-3">
+								<label for="expectedEndDate" class="form-label">expectedEndDate:</label>
+								<input type="date" name="expectedEndDate" id="expectedEndDate"
+									class="form-control"
+									placeholder="Enter Project SxpectedEndDate" required>
+							</div>
+
+							<div class="mb-3">
+								<label for="description" class="form-label">description:</label>
+								<input type="text" name="description" id="description"
+									class="form-control" placeholder="Enter Project Description"
+									required>
+							</div>
+
+							<div class="d-grid">
+								<button type="submit" class="btn btn-primary">Assign
+									Project</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-zBT5m5EmmkFxZpNuj5J2aHeWqxyOHABsm2h4UIF1AqOjaG9+9EfhGd1O53wbvGw9"
+		crossorigin="anonymous"></script>
 </body>
 </html>

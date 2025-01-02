@@ -150,6 +150,17 @@ public class HomeController {
 //		return "view-user";
 //		}
 //	}
+	@GetMapping("/view-user/{id}")
+	public String viewUser(@PathVariable Long id, Model model) {
+		User u = userService.getUserById(id);
+		if (u == null) {
+			model.addAttribute("error", "User not found with id: " + id);
+			return "redirect:/all-users";
+		} else {
+			model.addAttribute("user", u);
+			return "view-user";
+		}
+	}
 	
 	@GetMapping("/add-notification")
 	public String getNotification() {

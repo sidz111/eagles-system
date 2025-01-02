@@ -29,7 +29,7 @@ public class EmployeeController {
 	@Autowired
 	ProjectService projectService;
 
-	@GetMapping("/all-projects")
+	@GetMapping("/employee/all-projects")
 	public String allProjects(Model model) {
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		User employee = userRepository.findByEmail(username);

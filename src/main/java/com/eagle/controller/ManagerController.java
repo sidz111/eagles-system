@@ -1,11 +1,15 @@
 package com.eagle.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +34,15 @@ import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
 
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+	
+	@Autowired
+	JavaMailSender javaMailSender;
 	
 	@Autowired
 	GroupChatRepository groupChatRepository;
@@ -62,13 +72,17 @@ public class ManagerController {
 	private UserRepository userRepository;
 
 	@GetMapping("/assign-project")
-	public String showAssignProjectForm(Model model) {
+	public String showAssignProjectForm() {
 		return "managers/assign-project";
 	}
 
 	@PostMapping("/assign-project")
 	public String assigningProject(@RequestParam("projectName") String projectName,
-			@RequestParam("employeeId") Long employeeId, RedirectAttributes redirectAttributes) {
+			@RequestParam("employeeId") Long employeeId,
+			@RequestParam("description") String description,
+			@RequestParam("expectedEndDate") String expectedEndDate,
+			@RequestParam("status") String status,
+			RedirectAttributes redirectAttributes) throws MessagingException, UnsupportedEncodingException {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		User manager = userRepository.findByEmail(username);
@@ -82,12 +96,53 @@ public class ManagerController {
 		p.setProjectName(projectName);
 		p.setAssignBy(manager.getName());
 		p.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		p.setDescription(description);
+		p.setExpectedEndDate(expectedEndDate);
+		p.setStatus(status);
 		p.setEndDate(null);
 		p.setRemark(null);
 		p.setUser(emp);
 		emp.getProjects().add(p);
 		projectService.addProject(p);
 		userService.updateUser(emp);
+		
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+		helper.setFrom("sssurwade2212@gmail.com", "Eagles");
+		helper.setTo(emp.getEmail());
+		helper.setSubject("Assigned New Project");
+
+		String emailContent = "<div style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd;\">"
+		        + "<div style=\"text-align: center; padding: 20px; background-color: #004aad; color: white; border-radius: 8px 8px 0 0;\">"
+		        + "<h1 style=\"margin: 0; font-size: 24px;\">Welcome to Eagles!</h1>"
+		        + "</div>"
+		        + "<div style=\"padding: 20px;\">"
+		        + "<p style=\"font-size: 16px; margin: 0; color: #444;\">Dear <strong style=\"color: #004aad;\">"
+		        + emp.getName() + "</strong>,</p>"
+		        + "<p style=\"font-size: 14px; margin: 10px 0; color: #555;\">Congratulations! You have been assigned a project as <strong style=\"color: #28a745;\">"
+		        + p.getProjectName() + "</strong>.</p>"
+		        + "<p style=\"font-size: 14px; margin: 10px 0; color: #555;\">Description: <strong style=\"color: #004aad;\">"
+		        + p.getDescription() + "</strong></p>"
+		        + "<p style=\"font-size: 14px; margin: 10px 0; color: #555;\">Expected End Date: <strong style=\"color: #004aad;\">"
+		        + p.getExpectedEndDate() + "</strong></p>"
+		        + "<p style=\"font-size: 16px; margin: 0; color: #444;\">By <strong style=\"color: #004aad;\">"
+		        + manager.getName() + "</strong></p>"
+		        + "<div style=\"margin: 20px 0; text-align: center;\">"
+		        + "<a href=\"mailto:sssurwade2212@gmail.com\" style=\"display: inline-block; padding: 10px 20px; font-size: 14px; color: white; background-color: #004aad; text-decoration: none; border-radius: 4px;\">Contact Us</a>"
+		        + "</div>"
+		        + "<p style=\"font-size: 14px; margin: 10px 0; text-align: center; color: #777;\">We look forward to achieving great things together!</p>"
+		        + "</div>"
+		        + "<div style=\"text-align: center; padding: 10px; background-color: #f1f1f1; border-radius: 0 0 8px 8px; color: #888; font-size: 12px;\">"
+		        + "<p style=\"margin: 0;\">&copy; 2024 Eagles Team. All rights reserved.</p>"
+		        + "</div>"
+		        + "</div>";
+
+		helper.setText(emailContent, true);
+
+
+		javaMailSender.send(mimeMessage);
+		
+		
 		redirectAttributes.addFlashAttribute("success", "Project assigned successfully to " + emp.getName());
 		return "redirect:/manager/assign-project";
 	}
@@ -116,49 +171,28 @@ public class ManagerController {
 		return "team";
 	}
 
-//	@GetMapping("/group-chat")
-//	public String getGroupChat(Model model) {
-//	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//	    User currentUser = userService.getUserByEmail(username);
-//	    List<User> allEmployees = new ArrayList<>();
-//
-//	    if (currentUser.getManager() != null) {
-//	        Long managerId = currentUser.getManager().getId();
-//	        allEmployees = userService.getEmployeesByManagerId(managerId);
-//	        User manager = userService.getUserById(managerId);
-//	        allEmployees.add(manager);
-//	    } else {
-//	        allEmployees = userService.getEmployeesByManagerId(currentUser.getId());
-//	        allEmployees.add(currentUser);
-//	    }
-//	    List<GroupChat> chats = groupChatRepository.findAll();
-//	    model.addAttribute("participants", allEmployees);
-//	    model.addAttribute("chatts", chats);
-//	    model.addAttribute("user", currentUser);
-//
-//	    return "group-chat";
-//	}
-//	
-//	@PostMapping("/group-chat")
-//	public String addGroupChat(@RequestParam("message") String message, RedirectAttributes redirectAttributes) {
-//	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//	    User user = userRepository.findByEmail(username);
-//	    
-//	    if (user == null) {
-//	        redirectAttributes.addFlashAttribute("error", "User not found.");
-//	        return "redirect:/group-chat";
-//	    }
-//
-//	    GroupChat groupChat = new GroupChat();
-//	    groupChat.setMessage(message);
-//	    groupChat.setUser_chat(user);
-//	    groupChat.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-//
-//	    groupChatRepository.save(groupChat);
-//
-//	    return "redirect:/group-chat"; 
-//	}
-
+	@GetMapping("view-project")
+	public String viewProject() {
+		return "view-project";
+	}
+	
+	@PostMapping("update-project")
+	public String updateProject(@RequestParam("projectName") String projectName,
+			@RequestParam("employeeId") Long employeeId,
+			@RequestParam("description") String description,
+			@RequestParam("expectedEndDate") String expectedEndDate,
+			@RequestParam("status") String status,
+			@RequestParam("pid") Long pid,
+			RedirectAttributes redirectAttributes, Model model) {
+		Project project = projectService.getProjectById(pid);
+		if(project!=null) {
+			model.addAttribute("project", project);
+		}
+		else {
+			model.addAttribute("error", "Project Not found");
+		}
+		return "redirect:/view-project";
+	}
 
 
 	
