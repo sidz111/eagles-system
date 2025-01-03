@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.eagle.entities.Chatting;
-import com.eagle.entities.GroupChat;
 import com.eagle.entities.Project;
 import com.eagle.entities.User;
 import com.eagle.repository.ChattingRepository;
@@ -171,8 +168,9 @@ public class ManagerController {
 		return "team";
 	}
 
-	@GetMapping("view-project")
-	public String viewProject() {
+	@GetMapping("/view-project/{pid}")
+	public String viewProject(@PathVariable("pid") Long pid, Model model) {
+		model.addAttribute("project", projectService.getProjectById(pid));
 		return "view-project";
 	}
 	
@@ -194,6 +192,21 @@ public class ManagerController {
 		return "redirect:/view-project";
 	}
 
+	 @PostMapping("/add-suggestion/{projectId}")
+	    public String addSuggestion(@PathVariable("projectId") Long projectId, 
+	                                @RequestParam("suggestion") String suggestion, 
+	                                Model model) {
+	        Project project = projectService.getProjectById(projectId);
 
+	        if (project.getSuggesions() == null) {
+	            project.setSuggesions(new ArrayList<>());
+	        }
+
+	        project.getSuggesions().add(suggestion);
+	        projectService.addProject(project);
+
+	        model.addAttribute("project", project);
+	        return "view-project";
+	    }
 	
 }

@@ -1,10 +1,86 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<title>View Project</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Project</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<h1>View Project</h1>
+<div th:replace="~{base :: header}"></div>
+    <div class="container my-5">
+        <h1 class="text-center mb-4">Project Details</h1>
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Field</th>
+                    <th scope="col">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ID</td>
+                    <td th:text="${project.id}"></td>
+                </tr>
+                <tr>
+                    <td>Project Name</td>
+                    <td th:text="${project.projectName}"></td>
+                </tr>
+                <tr>
+                    <td>Start Date</td>
+                    <td th:text="${project.startDate}"></td>
+                </tr>
+                <tr>
+                    <td>End Date</td>
+                    <td th:text="${project.endDate}"></td>
+                </tr>
+                <tr>
+                    <td>Assigned By</td>
+                    <td th:text="${project.assignBy}"></td>
+                </tr>
+                <tr>
+                    <td>Remark</td>
+                    <td th:text="${project.remark}"></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td th:text="${project.description}"></td>
+                </tr>
+                <tr>
+                    <td>Expected End Date</td>
+                    <td th:text="${project.expectedEndDate}"></td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td th:text="${project.status}"></td>
+                </tr>
+                <tr>
+                    <td>Suggestions</td>
+                    <td>
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="suggestion : ${project.suggesions}" th:text="${suggestion}"></li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>User</td>
+                    <td th:text="${project.user_project.name}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="mt-5">Add a Suggestion</h2>
+        <form action="#" th:action="@{'/manager/add-suggestion/' + ${project.id}}" th:method="post">
+            <div class="mb-3">
+                <label for="suggestion" class="form-label">Suggestion</label>
+                <input type="text" id="suggestion" name="suggestion" class="form-control" placeholder="Enter your suggestion" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Suggestion</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

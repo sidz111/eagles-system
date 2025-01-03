@@ -17,6 +17,7 @@
 				<thead>
 					<tr class="text-center">
 						<td>Id</td>
+						<td>View</td>
 						<td>Project Name</td>
 						<td>Assigned to</td>
 						<td>Start Date</td>
@@ -29,6 +30,7 @@
 				<tbody>
 					<tr class="text-center" th:each="p: ${projects}">
 						<td th:text="${p.id}"></td>
+						<td><a th:href="@{'/manager/view-project/' + ${p.id}}">View</a></td>
 						<td th:text="${p.projectName}"></td>
 						<td th:text="${p.user.name}"></td>
 						<td th:text="${p.startDate}"></td>
