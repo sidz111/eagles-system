@@ -14,9 +14,14 @@ public interface UserService {
 	List<User> getEmployeesByManagerId(Long id);   // new method 3rd
 	User getUserById(Long id);
 	User getUserByEmail(String email);
+	Boolean isUserPresentEmail(String email);	// is user present by email or not
 	
 	User addUser(User user);
 	User updateUser(User user);
 	
 	void deleteUserById(Long id);
+	
+	String generateOtp();
+	
+	void sendOtpToEmail(String email, String otp);
 }

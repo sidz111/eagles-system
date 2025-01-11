@@ -28,6 +28,7 @@ public class User {
 	private String designation;
 	private String profileImage;
 	private Boolean isAccountLocked;
+	private Integer otp;
 
 	@OneToMany(mappedBy = "user_project", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Project> projects = new ArrayList<Project>();
@@ -186,8 +187,6 @@ public class User {
 	public void setEmployees(List<User> employees) {
 		this.employees = employees;
 	}
-	
-	
 
 	public List<GroupChat> getGroup_chatting() {
 		return Group_chatting;
@@ -197,33 +196,11 @@ public class User {
 		Group_chatting = group_chatting;
 	}
 
-	
-
-	public User(Long randomId, String name, String email, String password, String contact, String role, String joinDate,
-			String designation, String profileImage, Boolean isAccountLocked, List<Project> projects,
-			List<UserLogs> userLogs, List<Notifications> notifications, List<Chatting> chattings,
-			List<GroupChat> group_chatting, User manager, List<User> employees) {
-		super();
-		this.randomId = randomId;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.contact = contact;
-		this.role = role;
-		this.joinDate = joinDate;
-		this.designation = designation;
-		this.profileImage = profileImage;
-		this.isAccountLocked = isAccountLocked;
-		this.projects = projects;
-		this.userLogs = userLogs;
-		this.notifications = notifications;
-		this.chattings = chattings;
-		Group_chatting = group_chatting;
-		this.manager = manager;
-		this.employees = employees;
+	public Integer getOtp() {
+		return otp;
 	}
 
-	public User() {
-		super();
+	public void setOtp(Integer otp) {
+		this.otp = otp;
 	}
 }

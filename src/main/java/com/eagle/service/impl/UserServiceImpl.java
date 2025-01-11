@@ -2,8 +2,11 @@ package com.eagle.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.eagle.entities.Project;
@@ -16,6 +19,9 @@ import com.eagle.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
+	
+	@Autowired
+    JavaMailSender mailSender;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -119,5 +125,33 @@ public class UserServiceImpl implements UserService{
 	public List<User> getEmployeesByManagerId(Long id) {
 		return this.userRepository.findEmployeesByManagerId(id);
 	}
+
+	@Override
+	public Boolean isUserPresentEmail(String email) {
+		User u = userRepository.findByEmail(email);
+		if(u.getId() == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	@Override
+    public String generateOtp() {
+        Random random = new Random();
+        int otp = random.nextInt(900000) + 100000;
+        return String.valueOf(otp);
+    }
+
+    @Override
+    public void sendOtpToEmail(String email, String otp) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("sssurwade2212@gmail.com");
+        message.setTo(email);
+        message.setSubject("Your OTP Code");
+        message.setText("Your OTP is: " + otp);
+        mailSender.send(message);
+    }
 
 }

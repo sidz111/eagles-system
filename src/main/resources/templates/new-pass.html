@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>New Password</title>
+</head>
+<body>
+	<h1>New Password Page</h1>
+	<form action="/reset" method="post">
+	<input type="email" name="email" id="email" placeholder="Enter Email" />
+	<input type="number" name="otp" id="otp" placeholder="Enter OTP" />
+	<input type="password" name="password" id="password" placeholder="Enter Paasword" />
+	<button type="submit">Forget Password</button>
+	</form>
+</body>
+</html>
