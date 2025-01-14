@@ -269,69 +269,67 @@ public class HomeController {
 
 	@GetMapping("/reset")
 	public String getResetPage() {
-	    return "reset";
+		return "reset";
 	}
 
 	@GetMapping("/new-pass")
 	public String getNewPass() {
-	    return "new-pass";
+		return "new-pass";
 	}
 
 	@PostMapping("/forget-pass")
 	public String forgetPassword(@RequestParam("email") String email, Model model)
-	        throws MessagingException, UnsupportedEncodingException {
-	    Optional<User> u = Optional.ofNullable(userService.getUserByEmail(email));
-	    if (u.isEmpty()) {
-	        model.addAttribute("message", "User Not found");
-	        return "response-page";
-	    } else {
-	        String otp = userService.generateOtp();
-	        u.get().setOtp(Integer.parseInt(otp));
-	        userService.addUser(u.get());
-	        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-	        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-	        helper.setFrom("sssurwade2212@gmail.com", "Eagles");
-	        helper.setTo(email);
-	        helper.setSubject("OTP forget Password");
+			throws MessagingException, UnsupportedEncodingException {
+		Optional<User> u = Optional.ofNullable(userService.getUserByEmail(email));
+		if (u.isEmpty()) {
+			model.addAttribute("message", "User Not found with " + email + " email");
+			return "reset";
+		} else {
+			String otp = userService.generateOtp();
+			u.get().setOtp(Integer.parseInt(otp));
+			userService.addUser(u.get());
+			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+			helper.setFrom("sssurwade2212@gmail.com", "Eagles");
+			helper.setTo(email);
+			helper.setSubject("OTP for Forget Password");
 
-	        String emailContent = u.get().getOtp().toString();
+			String emailContent = u.get().getOtp().toString();
+			helper.setText(emailContent);
 
-	        helper.setText(emailContent);
-
-	        javaMailSender.send(mimeMessage);
-	        model.addAttribute("message", "OTP sent to your email.");
-	        model.addAttribute("email", email);
-	        return "new-pass";
-	    }
+			javaMailSender.send(mimeMessage);
+			model.addAttribute("message", "OTP sent to your email.");
+			model.addAttribute("email", email);
+			return "reset";
+		}
 	}
 
-	@PostMapping("/reset")
+	@PostMapping("/reset-password")
 	public String resetPassword(Model model, @RequestParam("email") String email,
-	        @RequestParam("password") String password, @RequestParam("otp") Integer otpFromUser, RedirectAttributes redirectAttributes)
-	        throws UnsupportedEncodingException, MessagingException {
+			@RequestParam("password") String password, @RequestParam("otp") Integer otpFromUser,
+			RedirectAttributes redirectAttributes) throws UnsupportedEncodingException, MessagingException {
 
-	    if (userService.isUserPresentEmail(email)) {
-	        model.addAttribute("emailExisterror", "Email already in use");
-	        return "redirect:/reset";
-	    } else {
-	        User u = userService.getUserByEmail(email);
+		Optional<User> userOpt = Optional.ofNullable(userService.getUserByEmail(email));
+		if (userOpt.isEmpty()) {
+			model.addAttribute("emailError", "No account found with this email.");
+			return "reset";
+		}
 
-	        if (!otpFromUser.equals(String.valueOf(u.getOtp()))) {
-	            model.addAttribute("otpError", "Invalid OTP");
-	            return "redirect:/reset";
-	        }
+		User u = userOpt.get();
 
-	        String otp = userService.generateOtp();
-	        u.setOtp(Integer.parseInt(otp));
-	        u.setPassword(passwordEncoder.encode(password));
-	        userService.addUser(u);
-	        userService.sendOtpToEmail(email, otp);
-	        model.addAttribute("message", "OTP sent to your email.");
-	        model.addAttribute("email", email);
+		if (!otpFromUser.equals(u.getOtp())) {
+			model.addAttribute("otpError", "Invalid OTP.");
+			return "reset";
+		}
 
-	        redirectAttributes.addFlashAttribute("message", "Password successfully reset.");
-	        return "redirect:/signin";
-	    }
+		u.setPassword(passwordEncoder.encode(password));
+		userService.addUser(u);
+
+		u.setOtp(null);
+		userService.addUser(u);
+
+		redirectAttributes.addFlashAttribute("message", "Password successfully reset.");
+		return "redirect:/signin";
 	}
 
 }
