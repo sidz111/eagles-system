@@ -1,8 +1,10 @@
 package com.eagle.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.eagle.entities.Chatting;
@@ -35,12 +38,16 @@ import com.eagle.service.NotificationsService;
 import com.eagle.service.ProjectService;
 import com.eagle.service.UserLogsService;
 import com.eagle.service.UserService;
+import com.eagle.service.impl.MailService;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+    private MailService mailService;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -87,7 +94,9 @@ public class HomeController {
 		User u = userRepository.findByEmail(username);
 		model.addAttribute("user", u);
 		model.addAttribute("notifications_auth", u.getNotifications());
-		model.addAttribute("notifications", notificationsService.getAllNotifications());
+		List<Notifications> notificationsList = notificationsService.getAllNotifications();
+		Collections.reverse(notificationsList);
+		model.addAttribute("notifications", notificationsList);
 //		model.addAttribute("user", new User());
 		model.addAttribute("managers", userService.getUserByRole("ROLE_MANAGER"));
 		return "index";
@@ -331,5 +340,25 @@ public class HomeController {
 		redirectAttributes.addFlashAttribute("message", "Password successfully reset.");
 		return "redirect:/signin";
 	}
+	
+	    @GetMapping("/mail")
+	    public String indexPage() {
+	        return "mail";
+	    }
+
+	    @PostMapping("/mail")
+	    public String sendMail(Model model, 
+	                           @RequestParam String to,
+	                           @RequestParam String subject,
+	                           @RequestParam String msg,
+	                           @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
+	        try {
+	            mailService.mailSending(to, msg, subject, file);
+	            model.addAttribute("success", "Mail sent successfully to: " + to);
+	        } catch (MessagingException | IllegalStateException e) {
+	            model.addAttribute("error", "Error while sending mail: " + e.getMessage());
+	        }
+	        return "success-page";
+	    }
 
 }

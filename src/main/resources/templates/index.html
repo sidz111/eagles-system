@@ -13,6 +13,7 @@
 	rel="stylesheet">
 
 <title>Eagles</title>
+
 <style>
 /* General body styling */
 body {
@@ -67,6 +68,11 @@ body {
 	border: none;
 	text-transform: uppercase;
 	letter-spacing: 2px;
+	transition: background-color 0.3s ease;
+}
+
+.card .btn:hover {
+	background-color: #8e44ad;
 }
 
 /* Media query for mobile */
@@ -156,6 +162,8 @@ body {
 	background-color: #8e44ad;
 }
 </style>
+
+
 </head>
 <body>
 	<div th:replace="~{base :: header}"></div>
@@ -169,9 +177,8 @@ body {
 				<th:block th:if="${user.role == 'ROLE_ADMIN'}">
 					<div class="card">
 						<h4>Admin Options</h4>
-						<a class="btn btn-primary" th:href="@{'/'}">Admin Home</a> 
-						
-						<a class="btn btn-primary " data-bs-toggle="modal"
+						<a class="btn btn-primary" th:href="@{'/'}">Admin Home</a> <a
+							class="btn btn-primary " data-bs-toggle="modal"
 							data-bs-target="#signInModal" th:href="@{'/admin/add-user'}">Add
 							User</a>
 					</div>
@@ -203,13 +210,54 @@ body {
 						<a class="btn btn-primary" th:href="@{'/all-projects'}">All
 							Projects</a> <a class="btn btn-primary" th:href="@{'/add-log'}">Add
 							Reporting</a> <a class="btn btn-primary"
-							th:href="@{'/all-reportings'}">All Reportings</a> 
-							
-							<a class="btn btn-primary" th:href="@{'/add-notification'}">Add
-							Notification</a>
+							th:href="@{'/all-reportings'}">All Reportings</a>
+
+						<!-- <a class="btn btn-primary" th:href="@{'/add-notification'}">Add
+							Notification</a> -->
+
+						<a class="btn btn-primary" data-bs-toggle="modal"
+							href="#addNotificationModal">Add Notification</a>
+
 					</div>
 				</th:block>
 			</th:block>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="addNotificationModal" tabindex="-1"
+			aria-labelledby="addNotificationModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered"
+				style="max-width: 500px;">
+				<div class="modal-content border-0 rounded-3 shadow-lg">
+					<div class="modal-header border-bottom-0">
+						<h5 class="modal-title" id="addNotificationModalLabel">Add
+							Notification</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body p-4">
+						<div class="mb-3">
+							<p th:if="${error}" th:text="${error}"
+								class="text-danger fw-bold"></p>
+						</div>
+						<form action="/add-notification" method="post">
+							<!-- Message -->
+							<div class="mb-3">
+								<label for="message" class="form-label">Enter
+									Notification</label> <input type="text"
+									class="form-control form-control-lg border-info" id="message"
+									name="message" placeholder="Enter notification message here"
+									required>
+							</div>
+							<!-- Submit Button -->
+							<div class="text-center mt-3">
+								<button type="submit"
+									class="btn btn-primary btn-lg w-100 shadow-sm">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- Notification Panel -->
