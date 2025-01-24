@@ -97,8 +97,9 @@ public class HomeController {
 		List<Notifications> notificationsList = notificationsService.getAllNotifications();
 		Collections.reverse(notificationsList);
 		model.addAttribute("notifications", notificationsList);
-//		model.addAttribute("user", new User());
 		model.addAttribute("managers", userService.getUserByRole("ROLE_MANAGER"));
+		model.addAttribute("employees", userService.getUserByRole("ROLE_EMPLOYEE"));
+		model.addAttribute("projects", projectService.getAllProjects());
 		return "index";
 	}
 

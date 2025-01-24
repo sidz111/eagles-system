@@ -65,16 +65,20 @@
 								class="nav-link" th:href="@{'/employee/all-projects'}">All
 									Projects</a></li>
 						</th:block>
+						
+						<!-- Stopped here -->
+						
+						<th:block th:unless="${user == null}">
+							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
+								class="nav-link" th:href="@{'/all-projects'}">All Projects</a></li>
+						</th:block>
 
 						<th:block th:unless="${user == null}">
 							<li th:if="${user.role == 'ROLE_ADMIN'}" class="nav-item"><a
 								class="nav-link" th:href="@{'/admin/all-users'}">All Users</a></li>
 						</th:block>
 						
-						<th:block th:unless="${user == null}">
-							<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="nav-item"><a
-								class="nav-link" th:href="@{'/all-projects'}">All Projects</a></li>
-						</th:block>
+						
 						
 						
 						<th:block th:unless="${user == null}">
@@ -112,7 +116,7 @@
 						<li class="nav-item"><a
 								class="nav-link" th:href="@{'/ai'}">AI</a></li>
 					</ul>
-
+<!-- Stopped from here -->
 					<!-- Right-aligned links -->
 					<div class="d-flex align-items-center gap-3">
 						<a class="text-decoration-none fw-bold text-dark"

@@ -1,177 +1,11 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-	crossorigin="anonymous">
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-	rel="stylesheet">
-
-<title>Eagles</title>
-
-<style>
-/* General body styling */
-body {
-	background-color: #454547;
-	font-family: 'Roboto', sans-serif;
-	margin: 0;
-	padding: 0;
-	overflow-x: hidden;
-}
-
-/* Content area styling */
-.content {
-	display: flex;
-	justify-content: start;
-	flex-wrap: wrap;
-	gap: 30px;
-	margin-top: 40px;
-	padding: 0 20px;
-}
-
-/* Card styling for user role options */
-.card {
-	background: rgba(0, 0, 0, 0.7);
-	padding: 40px;
-	border-radius: 10px;
-	width: 50%;
-	text-align: center;
-	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
-	transition: all 0.3s ease-in-out;
-	margin-bottom: 30px;
-	color: #ecf0f1;
-}
-
-.card h4 {
-	font-size: 1.6rem;
-	font-weight: 600;
-	color: #ecf0f1;
-	margin-bottom: 20px;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-}
-
-/* Button within each section */
-.card .btn {
-	background-color: #9b59b6;
-	color: white;
-	padding: 12px 30px;
-	font-size: 1.1rem;
-	border-radius: 10px;
-	margin: 5px;
-	font-weight: 600;
-	border: none;
-	text-transform: uppercase;
-	letter-spacing: 2px;
-	transition: background-color 0.3s ease;
-}
-
-.card .btn:hover {
-	background-color: #8e44ad;
-}
-
-/* Media query for mobile */
-@media ( max-width : 768px) {
-	.user-info {
-		padding: 20px;
-	}
-	.user-info h2 {
-		font-size: 2rem;
-	}
-	.content {
-		grid-template-columns: 1fr;
-		padding: 0 10px;
-	}
-	.card {
-		width: 100%;
-		margin-bottom: 20px;
-	}
-	.card h4 {
-		font-size: 1.4rem;
-	}
-	.card .btn {
-		padding: 10px 25px;
-		font-size: 1rem;
-	}
-}
-
-/* Chat/Notification Panel */
-.content2 {
-	position: fixed;
-	top: 20%;
-	right: 0;
-	width: 30%;
-	background-color: rgba(0, 0, 0, 0.8);
-	color: white;
-	border-radius: 10px 0 0 10px;
-	padding: 0.3%;
-	box-shadow: -5px 0px 20px rgba(0, 0, 0, 0.5);
-	overflow-y: auto;
-	max-height: 70%;
-	transition: transform 0.3s ease-in-out;
-	transform: translateX(99%);
-}
-
-.content2.active {
-	transform: translateX(0);
-}
-
-.content2 h4 {
-	font-size: 1.6rem;
-	font-weight: 600;
-	color: #ecf0f1;
-	margin-bottom: 2px;
-	text-align: center;
-}
-
-.content2 .table {
-	background-color: rgba(0, 0, 0, 0.6);
-	color: white;
-}
-
-.content2 .table th, .content2 .table td {
-	text-align: center;
-}
-
-/* Button to open the notifications panel */
-.open-notifications {
-	position: fixed;
-	top: 10%;
-	right: 1%;
-	background-color: #9b59b6;
-	color: white;
-	border: none;
-	border-radius: 50%;
-	width: 50px;
-	height: 50px;
-	font-size: 1.5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-	transition: background-color 0.3s ease;
-}
-
-.open-notifications:hover {
-	background-color: #8e44ad;
-}
-</style>
-
-
-</head>
+<!-- 
 <body>
 	<div th:replace="~{base :: header}"></div>
 
-	<!-- User Info Section -->
+	User Info Section
 	<div class="container">
 
-		<!-- Conditional Content Based on User Role -->
+		Conditional Content Based on User Role
 		<div class="content">
 			<th:block th:unless="${user == null}">
 				<th:block th:if="${user.role == 'ROLE_ADMIN'}">
@@ -212,8 +46,8 @@ body {
 							Reporting</a> <a class="btn btn-primary"
 							th:href="@{'/all-reportings'}">All Reportings</a>
 
-						<!-- <a class="btn btn-primary" th:href="@{'/add-notification'}">Add
-							Notification</a> -->
+						<a class="btn btn-primary" th:href="@{'/add-notification'}">Add
+							Notification</a>
 
 						<a class="btn btn-primary" data-bs-toggle="modal"
 							href="#addNotificationModal">Add Notification</a>
@@ -223,7 +57,7 @@ body {
 			</th:block>
 		</div>
 
-		<!-- Modal -->
+		Modal
 		<div class="modal fade" id="addNotificationModal" tabindex="-1"
 			aria-labelledby="addNotificationModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered"
@@ -241,7 +75,7 @@ body {
 								class="text-danger fw-bold"></p>
 						</div>
 						<form action="/add-notification" method="post">
-							<!-- Message -->
+							Message
 							<div class="mb-3">
 								<label for="message" class="form-label">Enter
 									Notification</label> <input type="text"
@@ -249,7 +83,7 @@ body {
 									name="message" placeholder="Enter notification message here"
 									required>
 							</div>
-							<!-- Submit Button -->
+							Submit Button
 							<div class="text-center mt-3">
 								<button type="submit"
 									class="btn btn-primary btn-lg w-100 shadow-sm">Submit</button>
@@ -260,13 +94,13 @@ body {
 			</div>
 		</div>
 
-		<!-- Notification Panel -->
+		Notification Panel
 		<div class="content2">
 			<h4>Notifications</h4>
 			<table class="table">
 				<thead>
 					<tr>
-						<!-- <th>Id</th> -->
+						<th>Id</th>
 						<th>By</th>
 						<th>Date</th>
 						<th>Message</th>
@@ -275,7 +109,7 @@ body {
 				</thead>
 				<tbody>
 					<tr th:each="n : ${notifications}">
-						<!-- <td th:text="${n.id}"></td> -->
+						<td th:text="${n.id}"></td>
 						<td th:text="${n.user_notifications.name}"></td>
 						<td th:text="${n.date}"></td>
 						<td th:text="${n.message}"></td>
@@ -298,7 +132,7 @@ body {
 	</div>
 
 
-	<!-- Button to open the notification panel -->
+	Button to open the notification panel
 	<button class="open-notifications" onclick="toggleNotifications()">
 		<i class="fa fa-bell" style="font-size: 95%"></i>
 	</button>
@@ -314,38 +148,38 @@ body {
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<!-- Sign-in Form -->
+					Sign-in Form
 					<form action="/admin/add-user" enctype="multipart/form-data"
 						method="post">
-						<!-- Name -->
+						Name
 						<div class="mb-3">
 							<label for="name" class="form-label">Name</label> <input
 								type="text" class="form-control" id="name" name="name"
 								placeholder="Enter full name" required>
 						</div>
 
-						<!-- Email -->
+						Email
 						<div class="mb-3">
 							<label for="email" class="form-label">Email</label> <input
 								type="email" class="form-control" id="email" name="email"
 								placeholder="Enter email address" required>
 						</div>
 
-						<!-- Password -->
+						Password
 						<div class="mb-3">
 							<label for="password" class="form-label">Password</label> <input
 								type="password" class="form-control" id="password"
 								name="password" placeholder="Enter password" required>
 						</div>
 
-						<!-- Contact -->
+						Contact
 						<div class="mb-3">
 							<label for="contact" class="form-label">Contact</label> <input
 								type="number" class="form-control" id="contact" name="contact"
 								placeholder="Enter contact number" required>
 						</div>
 
-						<!-- Role -->
+						Role
 						<div class="mb-3">
 							<label for="role" class="form-label">Role</label> <select
 								class="form-select" id="role" name="role" required>
@@ -359,9 +193,9 @@ body {
 						<div class="mb-3">
 							<label for="under" class="form-label">Under Manager</label> <select
 								class="form-select" id="under" name="under" required>
-								<!-- Default Option -->
+								Default Option
 								<option value="0" selected>None</option>
-								<!-- Manager List -->
+								Manager List
 								<option th:each="m : ${managers}" th:value="${m.id}"
 									th:text="${m.name}"></option>
 							</select>
@@ -369,28 +203,28 @@ body {
 
 
 
-						<!-- Join Date -->
+						Join Date
 						<div class="mb-3">
 							<label for="joinDate" class="form-label">Join Date</label> <input
 								type="date" class="form-control" id="joinDate" name="joinDate"
 								required>
 						</div>
 
-						<!-- Designation -->
+						Designation
 						<div class="mb-3">
 							<label for="designation" class="form-label">Designation</label> <input
 								type="text" class="form-control" id="designation"
 								name="designation" placeholder="Enter designation" required>
 						</div>
 
-						<!-- Profile Image -->
+						Profile Image
 						<div class="mb-3">
 							<label for="profileImage" class="form-label">Profile
 								Image</label> <input type="file" class="form-control" id="profileImage"
 								name="profileImage">
 						</div>
 
-						<!-- Submit Button -->
+						Submit Button
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary w-100">Submit</button>
 						</div>
@@ -400,17 +234,951 @@ body {
 		</div>
 	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+ -->
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manasvi Tech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet">
+
+<!-- Bootstrap CSS and JS -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap Icons -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<!-- GOOGLE FONTS -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+	rel="stylesheet">
+
+<!-- SweetAlert2 CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://kit.fontawesome.com/4b04d00b02.js"
+	crossorigin="anonymous"></script>
+
+<style>
+body {
+	font-family: "Montserrat", serif;
+}
+
+collapsed {
+	margin-left: 0;
+}
+
+.close-side body {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.main {
+	width: 100%;
+	height: 100vh;
+	overflow-y: auto;
+	padding-top: 80px;
+}
+
+#sidebar {
+	max-width: 280px;
+	min-width: 280px;
+	height: 100vh;
+	min-height: 100vh;
+	transition: all 0.35s ease-in-out;
+	background-color: var(--white);
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	position: sticky;
+	top: 0;
+	border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#sidebar.collapsed {
+	margin-left: -280px;
+}
+
+.toggler-btn {
+	background-color: transparent;
+	cursor: pointer;
+	border: 0;
+}
+
+.toggler-btn i {
+	font-size: 1.75rem;
+	color: #333;
+	font-weight: 600;
+}
+
+#sidebar.collapsed ~.main .navbar {
+	width: 100%;
+	left: 0;
+	transition: all 0.35s ease-in-out;
+}
+
+.sidebar-nav {
+	flex: 1 1 auto;
+	overflow-y: auto;
+}
+
+.sidebar-logo {
+	padding: 1.15rem 1.5rem;
+	text-align: center;
+	position: relative;
+	border-bottom: none;
+}
+
+.close-sidebar {
+	display: none;
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #333;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+a.sidebar-link {
+	padding: .625rem 1.625rem;
+	color: rgb(0, 64, 128);
+	position: relative;
+	transition: all 0.35s;
+	display: block;
+	font-size: 1.25rem;
+	border: none;
+}
+
+a.sidebar-link:hover {
+	background-color: rgb(0, 64, 128);
+	color: #ffffff;
+}
+
+.sidebar-link[data-bs-toggle="collapsed"]::after {
+	border: solid;
+	border-width: 0 .075rem .075rem 0;
+	display: inline-block;
+	padding: 2px;
+	position: absolute;
+	right: 1.5rem;
+	top: 1.4rem;
+	transform: rotate(-135deg);
+	transition: all .2s ease-out;
+}
+
+.sidebar-link[data-bs-toggle="collapsed"].collapsed::after {
+	transform: rotate(45deg);
+	transition: all .2s ease-out;
+}
+
+/* CUSTOM SCROLLBAR CODE */
+::-webkit-scrollbar {
+	width: 0px;
+}
+
+.navbar {
+	padding: 1.15rem 1.5rem;
+	position: fixed;
+	width: calc(100% - 280px);
+	z-index: 1000;
+	top: 0;
+	background-color: var(--white);
+	box-shadow: 10px 3px 10px rgba(0, 0, 0, 0.1);
+	height: 10%;
+	margin-bottom: 12px;
+	left: 280px;
+	transition: all 0.35s ease-in-out;
+}
+
+#notificationModal .modal-body {
+	max-height: 450px;
+	overflow-y: auto;
+}
+
+@media ( max-width : 768px) {
+	#sidebar {
+		position: fixed;
+		z-index: 1100;
+		left: -280px;
+		/* Start hidden */
+		top: 0;
+		transition: left 0.35s ease-in-out;
+	}
+	#sidebar.collapsed {
+		left: 0;
+		/* Show when toggled */
+	}
+	.navbar {
+		width: 100%;
+		left: 0;
+	}
+}
+/* Header styles */
+.navbar {
+	background-color: #F8F8FB;
+	border-bottom: 1px solid #e1e1e1;
+}
+
+.navbar-nav .nav-link {
+	color: #000;
+	font-weight: 500;
+	margin-right: 20px;
+	font-size: 16px;
+	padding: 10px 15px;
+	transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link.active {
+	border-bottom: 2px solid #253D90;
+	color: #000;
+}
+
+.navbar-nav .nav-link:hover {
+	color: #253D90;
+	border-bottom: 2px solid #253D90;
+}
+
+.navbar .bi-bell {
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.navbar img {
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border: 2px solid #253D90;
+}
+
+.notification-modal {
+	position: absolute;
+	top: auto;
+	right: 20px;
+	bottom: 80px;
+	width: 350px;
+	max-width: 100%;
+}
+
+.notification-modal .modal-content {
+	border-radius: 12px;
+	box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+	border: none;
+}
+
+.notification-modal .modal-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 20px;
+}
+
+/* Consistent notification count styling */
+.notification-count {
+	background-color: #253D90;
+	color: white;
+	padding: 3px 10px;
+	border-radius: 20px;
+	font-size: 0.8rem;
+	line-height: 1;
+	display: inline-block;
+	font-weight: 500;
+}
+
+/* Modal header notification count */
+.modal .notification-count {
+	margin-left: auto;
+}
+
+/* Navbar notification count */
+.navbar .notification-count {
+	position: absolute;
+	top: -3px;
+	right: -8px;
+	padding: 2px 6px;
+	font-size: 0.7rem;
+	min-width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 2px solid white;
+}
+
+.navbar .bi-bell {
+	position: relative;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.notification-list {
+	max-height: 350px;
+	overflow-y: auto;
+}
+
+.notification-item {
+	display: flex;
+	align-items: center;
+	padding: 12px 20px;
+	border-bottom: 1px solid #f0f0f0;
+	position: relative;
+	transition: background-color 0.3s ease;
+}
+
+.notification-item:hover {
+	background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+	background-color: #f0f4ff;
+}
+
+.notification-icon {
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 15px;
+	flex-shrink: 0;
+}
+
+.notification-badge {
+	width: 8px;
+	height: 8px;
+	background-color: #253D90;
+	border-radius: 50%;
+	position: absolute;
+	top: 15px;
+	right: 15px;
+}
+
+.notification-content {
+	flex-grow: 1;
+}
+
+.notification-content h6 {
+	margin-bottom: 4px;
+	font-size: 0.95rem;
+	color: #333;
+	font-weight: 600;
+}
+
+.notification-content p {
+	margin-bottom: 4px;
+	color: #666;
+	font-size: 0.85rem;
+	line-height: 1.4;
+}
+
+.notification-content small {
+	font-size: 0.75rem;
+	color: #999;
+}
+
+.notification-modal .modal-footer {
+	justify-content: center;
+}
+
+.notification-modal .btn-link {
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.section-title {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 1rem;
+	color: #053666;
+	border-bottom: 2px solid rgb(0, 64, 128);;
+	padding-bottom: 0.5rem;
+}
+
+.sections section {
+	background-color: #f8f9fa;
+	width: 100%;
+	max-width: 400px;
+	margin-bottom: 20px;
+	color: #053666;
+}
+
+.sections ul li a {
+	text-decoration: none;
+}
+
+.sections ul li a:hover {
+	background-color: rgb(0, 64, 128);
+	color: white;
+	padding: 12px 16px;
+	box-shadow: 0 4px 8px rgba(10, 85, 160, 0.2);
+}
+
+.sections ul {
+	padding-left: 20px;
+}
+
+.sections ul li {
+	padding: 0.5rem 0;
+}
+
+.adm {
+	color: #053666;
+}
+
+.adm:hover {
+	color: rgb(255, 255, 255) !important;
+}
+
+.modal-content {
+	max-width: 600px;
+	margin: auto;
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modal-header .close {
+	margin-left: auto;
+}
+
+.card {
+	/* border: none; */
+	/* border-radius: 12px; */
+	box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	overflow: hidden;
+	background-color: #ffffff;
+	margin: 15px;
+}
+
+.card:hover {
+	transform: translateY(-10px);
+	box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+	/* padding: 20px; */
+	background: linear-gradient(135deg, #2c3e50 0%, #2980b9 100%);
+	/* Dark Blue to Blue gradient */
+	color: #ffffff;
+	text-align: center;
+}
+
+.card-title {
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 1.5rem;
+	margin-bottom: 10px;
+}
+
+.card-text {
+	font-size: 1.2rem;
+}
+
+.container {
+	/* border-radius: 12px; */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+/* General Table Styling */
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	/* Soft shadow to lift the table */
+}
+
+/* Table Header Styling */
+.table-custom th {
+	background-color: rgb(0, 64, 128); /* Dark grey background for header */
+	color: white;
+	font-size: 16px;
+	font-weight: 600;
+	text-align: left;
+	padding: 5px 5px; /* Reduced padding for compactness */
+}
+
+/* Table Body Styling */
+.table-custom td {
+	padding: 6px 10px; /* Reduced padding for compactness */
+	font-size: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+	transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Hover Effect */
+.table-hover tbody tr:hover {
+	background-color: #f2f2f2; /* Light grey on hover */
+	cursor: pointer;
+}
+
+/* Zebra Striping */
+.table-custom tr:nth-child(even) {
+	background-color: #f9f9f9; /* Light grey for alternate rows */
+}
+
+/* Styling for Table Cells */
+.table-custom td {
+	background-color: #ffffff;
+	color: #333; /* Dark text for readability */
+}
+
+/* Border Styling */
+
+/* Responsive Table */
+.table-responsive {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Styling for Large Screens */
+@media ( min-width : 992px) {
+	.table-custom th, .table-custom td {
+		padding: 10px 14px;
+		/* Slightly increased padding for better readability on larger screens */
+	}
+	.table-custom th {
+		font-size: 18px; /* Larger font size for headers on larger screens */
+	}
+	.table-custom td {
+		font-size: 14px; /* Slightly larger font for better readability */
+	}
+}
+
+/* Styling for Small Screens */
+@media ( max-width : 576px) {
+	.table-custom th, .table-custom td {
+		padding: 6px 8px; /* Smaller padding for mobile devices */
+		font-size: 12px; /* Smaller font on mobile */
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+	<div class="d-flex">
+		<!-- Sidebar -->
+		<aside id="sidebar" class="sidebar-toggle">
+			<div class="sidebar-logo ">
+				<i class="bi bi-x-lg close-sidebar mt-3"></i>
+			</div>
+			<!-- Sidebar Navigation -->
+			<ul class="sidebar-nav p-0 mt-4">
+				<!-- Profile Image & Name -->
+				<li class="sidebar-item text-center mb-4 "><a href=""> <img
+						th:if="${user.profileImage != null}"
+							th:src="@{'/images/users/' + ${user.profileImage}}"
+						alt="HR Profile" class="rounded-circle mb-2"
+						style="width: 90px; height: 90px; object-fit: cover;">
+				</a>
+					<h6 class="fs-5 fw-bold mb-3 " style="color: rgb(0, 64, 128);" th:text="${user.name}"></h6>
+					<hr></li>
+
+				<!-- ADMIN HOME -->
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_ADMIN'}"
+						class="sidebar-item nav-item"><a th:href="@{'/'}"
+						class="sidebar-link nav-link" id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-house me-2"></i>
+							<span class="ms-1">Admin Home</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_MANAGER'}" class="sidebar-item"><a
+						href="" class="sidebar-link " id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-house me-2"></i>
+							<span class="ms-1">Manager Home</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						href="" class="sidebar-link " id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-house me-2"></i>
+							<span class="ms-1">Employee Home</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<th:block th:if="${user.role == 'ROLE_ADMIN'}">
+						<li class="sidebar-item"><a th:href="@{'/admin/add-user'}"
+							class="sidebar-link " id="Home-link" style="font-size: 16px;">
+								<i class="fa-solid fa-user-plus me-2"></i> <span class="ms-1">Add
+									User</span>
+						</a></li>
+					</th:block>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_MANAGER'}" class="sidebar-item"><a
+						th:href="@{'/manager/assign-project'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-clipboard me-2"></i> <span class="ms-1">Assign
+								Project</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_MANAGER'}" class="sidebar-item"><a
+						th:href="@{'/manager/my-team'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-list me-2"></i> <span class="ms-1">My
+								Team</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						th:href="@{'/all-projects'}" class="sidebar-link " id="Home-link"
+						style="font-size: 16px;"> <i
+							class="fa-solid fa-book-open me-2"></i> <span class="ms-1">All
+								Projects</span>
+					</a></li>
+				</th:block>
+
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						th:href="@{'/employee/all-projects'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-book-open me-2"></i> <span class="ms-1">All
+								Projects</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_ADMIN'}" class="sidebar-item"><a
+						th:href="@{'/admin/all-users'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-users me-2"></i> <span class="ms-1">All
+								Users</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_ADMIN'}" class="sidebar-item"><a
+						th:href="@{'/add-log'}" class="sidebar-link " id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-plus me-2"></i>
+							<span class="ms-1">Add Reporting</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						th:href="@{'/all-reportings'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-newspaper me-2"></i> <span class="ms-1">All
+								Reportings</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role == 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						th:href="@{'/employee/all-reportings'}" class="sidebar-link "
+						id="Home-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-file-invoice me-2"></i> <span class="ms-1">My
+								Reportings</span>
+					</a></li>
+				</th:block>
+
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_ADMIN'}" class="sidebar-item"><a
+						th:href="@{'/group-chat'}" class="sidebar-link " id="Home-link"
+						style="font-size: 16px;"> <i
+							class="fa-solid fa-people-group me-2"></i> <span class="ms-1">Group
+								Chatting</span>
+					</a></li>
+				</th:block>
+
+				<li class="sidebar-item"><a th:href="@{'/meeting'}"
+					class="sidebar-link " id="Home-link" style="font-size: 16px;">
+						<i class="fa-solid fa-video me-2"></i> <span class="ms-1">Meeting</span>
+				</a></li>
+
+				<li class="sidebar-item"><a th:href="@{'/ai'}"
+					class="sidebar-link " id="Home-link" style="font-size: 16px;">
+						<i class="fa-brands fa-rocketchat me-2"></i> <span class="ms-1">AI</span>
+				</a></li>
+
+				<li class="sidebar-item"><a th:href="@{'/chatt'}"
+					class="sidebar-link " id="Home-link" style="font-size: 16px;">
+						<i class="fa-brands fa-rocketchat me-2"></i> <span class="ms-1">Chatting
+							Room</span>
+				</a></li>
+
+				<li class="sidebar-item"><a th:href="@{'/mail'}"
+					class="sidebar-link " id="Home-link" style="font-size: 16px;">
+						<i class="fa-brands fa-rocketchat me-2"></i> <span class="ms-1">Mail</span>
+				</a></li>
+
+				<li class="sidebar-item"><a th:href="@{/profile}"
+					class="sidebar-link " id="Home-link" style="font-size: 16px;">
+						<i class="fa-solid fa-user me-2"></i> <span class="ms-1">Profile</span>
+				</a></li>
+
+
+				<!-- Sidebar Navigation Ends -->
+
+				<!-- LOGOUT -->
+				<div class="sidebar-footer mb-3">
+					<a th:href="@{/logout}" class="sidebar-link mt-5"
+						style="font-size: 16px; background-color: rgb(0, 64, 128); color: white;">
+						<i class="bi bi-box-arrow-left"></i> <span class="ms-1">Logout</span>
+					</a>
+				</div>
+		</aside>
+
+		<!-- Main Component -->
+		<div class="main mt-3">
+			<!-- Navbar -->
+			<nav
+				class="navbar navbar-expand d-flex justify-content-between align-items-center">
+				<button class="toggler-btn" type="button">
+					<i class="bi bi-list"></i>
+				</button>
+
+				<!-- Notification Icon with Badge -->
+				<div class="notificationIcon position-relative"
+					onclick="openNotificationModal()">
+					<i class="bi bi-bell-fill fs-3 text-primary"></i>
+				</div>
+
+				<script>
+                    function openNotificationModal() {
+                        const modalElement = document.getElementById('notificationModal');
+                        const modal = new bootstrap.Modal(modalElement);
+                        modal.show();
+                    }
+
+                    function closeNotificationModal() {
+                        const modalElement = document.getElementById('notificationModal');
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        modal.hide();
+                    }
+                </script>
+
+			</nav>
+			<div id="notificationModal" class="modal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Notifications</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close" onclick="closeNotificationModal()">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							
+							
+							
+						</div>
+
+						<div class="modal-body">
+							<h4>Notifications</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>By</th>
+						<th>Date</th>
+						<th>Message</th>
+						<th th:if="${user.role != 'ROLE_EMPLOYEE'}">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="n : ${notifications}">
+						<td th:text="${n.id}"></td>
+						<td th:text="${n.user_notifications.name}"></td>
+						<td th:text="${n.date}"></td>
+						<td th:text="${n.message}"></td>
+						<td>
+
+							<div th:each="na, stat: ${notifications_auth}">
+								<a
+									th:if="${stat.index == 0 && na.user_notifications.role == n.user_notifications.role && user.role != 'ROLE_EMPLOYEE'}"
+									th:href="@{'/remove-notification/' + ${n.id}}"
+									class="text-danger"> <i class="fa-solid fa-trash"
+									aria-hidden="true"></i>
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div
+				class="container pb-5 sections d-flex flex-wrap justify-content-start ms-3">
+
+				<div class="card m-2 ms-5" style="width: 15rem;">
+					<div class="card-body">
+						<h5 class="card-title">Employees Count</h5>
+						<p class="card-text" th:text="${employees.size()}"></p>
+					</div>
+				</div>
+
+				<div class="card m-2 ms-5" style="width: 15rem;">
+					<div class="card-body">
+						<h5 class="card-title">Manager Count</h5>
+						<p class="card-text" th:text="${managers.size()}"></p>
+					</div>
+				</div>
+
+				<div class="card m-2 ms-5" style="width: 15rem;">
+					<div class="card-body">
+						<h5 class="card-title">Project Count</h5>
+						<p class="card-text" th:text="${projects.size()}"></p>
+					</div>
+				</div>
+
+				<div class="card m-2 ms-5" style="width: 15rem;">
+					<div class="card-body">
+						<h5 class="card-title">Team Count</h5>
+						<p class="card-text" th:text="${managers.size()}"></p>
+					</div>
+				</div>
+
+				<div class="table-responsive mt-4 w-100 me-5 ms-5">
+					<table class="table table-hover table-custom">
+						<thead class="thead-custom">
+							<tr>
+								<th scope="col">Title</th>
+								<th scope="col">Start</th>
+								<th scope="col">End</th>
+								<th scope="col">assignBy</th>
+								<th scope="col">remark</th>
+								<th scope="col">Expt. EndDate</th>
+								<th scope="col">status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="p: ${projects}">
+								<td th:text="${p.projectName}"></td>
+								<td th:text="${p.startDate}"></td>
+								<td th:if="${p.endDate}!=null">
+									<div class="text-success fw-bold" th:text="${p.endDate}"></div>
+								</td>
+								<td th:if="${p.endDate}==null">
+									<div class="text-danger fw-bold" th:text="Running"></div>
+								</td>
+								<td th:text="${p.assignBy}"></td>
+								<td th:if="${p.remark}==null">
+									<div class="text-warning fw-bold" th:text="Running"></div>
+								</td>
+								
+								<td th:if="${p.remark}!=null">
+									<div th:text="${p.remark}"></div>
+								</td>
+								
+								<td th:text="${p.expectedEndDate}"></td>
+								<td th:text="${p.status}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
 
 	<script>
-		function toggleNotifications() {
-			const notifications = document.querySelector('.content2');
-			notifications.classList.toggle('active');
-		}
-	</script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggler = document.querySelector(".toggler-btn");
+            const sidebar = document.querySelector("#sidebar");
 
+            toggler.addEventListener("click", function () {
+                sidebar.classList.toggle("collapsed");
+            });
+        });
+
+    </script>
+
+
+	<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname;
+            const links = {
+                'ManasviHome': document.getElementById('ManasviHome-link'),
+                'ManasviTotalEmployee': document.getElementById('TotalEmployee-link'),
+                'ManasviTotalIntern': document.getElementById('TotalIntern-link'),
+                'ManasviEmployeeAttendance': document.getElementById('EmployeeAttendance-link'),
+                'ManasviInternAttendance': document.getElementById('InternAttendance-link'),
+                'ManasviGenerateAttendance': document.getElementById('GenerateAttendance-link'),
+                'ManasviEmployeeLeaveRequest': document.getElementById('EmployeeLeaveRequest-link'),
+                'ManasviInternLeaveRequest': document.getElementById('InternLeaveRequest-link'),
+                'ManasviLeaveRecords': document.getElementById('leaveRecords-link'),
+                'ManasviSalaryManagement': document.getElementById('ManasviSalaryManagement-link'),
+                'ManasviDocumentation': document.getElementById('ManasviDocumentation-link'),
+                'ManasviManageEvent': document.getElementById('Manageevent-link'),
+                'ManasviInterviewAnalysis': document.getElementById('InterviewAnalysis-link'),
+                'ManasviHRActivities': document.getElementById('HRActivities-link'),
+                'ManasviOfficeWork': document.getElementById('OfficeWork-link')
+            };
+
+            const currentPage = currentPath.split('/').pop();
+
+            for (const [path, link] of Object.entries(links)) {
+                if (currentPage === path) {
+                    link.style.backgroundColor = '#007AFF';
+                    link.style.color = '#FFFFFF';
+                    const parentCollapse = link.closest('.collapsed');
+                    if (parentCollapse) {
+                        parentCollapse.classList.add('show');
+                        const trigger = document.querySelector(`[data-bs-target="#${parentCollapse.id}"]`);
+                        trigger.classList.remove('collapsed');
+                        trigger.setAttribute('aria-expanded', 'true');
+                    }
+                    break;
+                }
+            }
+        });
+    </script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-GeWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+		crossorigin="anonymous"></script>
 </body>
 </html>
