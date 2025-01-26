@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eagle.service.impl.AIService;
 
-
 @Controller
 public class AIController {
 
