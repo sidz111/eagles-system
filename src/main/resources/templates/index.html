@@ -1012,7 +1012,7 @@ a.sidebar-link:hover {
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
+						<!-- <th>Id</th> -->
 						<th>By</th>
 						<th>Date</th>
 						<th>Message</th>
@@ -1021,7 +1021,7 @@ a.sidebar-link:hover {
 				</thead>
 				<tbody>
 					<tr th:each="n : ${notifications}">
-						<td th:text="${n.id}"></td>
+						<!-- <td th:text="${n.id}"></td> -->
 						<td th:text="${n.user_notifications.name}"></td>
 						<td th:text="${n.date}"></td>
 						<td th:text="${n.message}"></td>

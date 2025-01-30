@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+	href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+	rel="stylesheet">
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link
@@ -14,7 +16,7 @@
 <title>Login Page</title>
 <style>
 body {
-	background-color:white;
+	background-color: white;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -35,7 +37,7 @@ h4 {
 	display: flex;
 	justify-content: center;
 	height: 100%;
-	width:70%;
+	width: 70%;
 }
 
 .card-body {
@@ -59,9 +61,9 @@ h4 {
 }
 
 .form-control:focus {
-	box-shadow: 0 0 10px rgba(184, 11, 11, 0.8); /* A vibrant reddish shadow */
+	box-shadow: 0 0 10px rgba(184, 11, 11, 0.8);
+	/* A vibrant reddish shadow */
 	border-color: rgba(184, 11, 11, 1); /* Fully opaque border color */
-
 }
 
 .btn-warning {
@@ -75,32 +77,43 @@ h4 {
 	background-color: rgba(184, 11, 11, 1);
 	transform: translateY(-2px);
 }
-.btn{
+
+.btn {
 	background-color: rgb(0, 64, 128);
-	color:white;
+	color: white;
 }
-
-
 </style>
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="navbar navbar-expand-lg ms-5">
-		  <a class="navbar-brand" href="#">
-		    <img th:src="@{'loginPageImage/Manasvi .png'}" alt="Login Logo" height="40" width="170"/>
-		  </a>
-		
+			<a class="navbar-brand" href="#"> <img
+				th:src="@{'loginPageImage/Manasvi .png'}" alt="Login Logo"
+				height="40" width="170" />
+			</a>
+
 		</div>
 		<div class="row ">
-			<h2 class="text-center  mb-5" style="font-weight: bolder;color:rgba(184,11,11,255);">Team Management And Collabration System</h2>
-			<div class="col-md-5 d-flex justify-content-center align-items-center">
-				<img th:src="@{'loginPageImage/front.jpg'}" alt="Login Logo" height="400" width="360"/>
+			<h2 class="text-center  mb-1"
+				style="font-weight: bolder; color: rgba(184, 11, 11, 255);">Team
+				Management And Collabration System</h2>
+			<th:block th:if="${param.error}">
+				<h5 id="errorMessage" class="text-center mb-2"
+					style="color: rgba(184, 11, 11, 255);">Wrong Username or
+					Password</h5>
+			</th:block>
+
+			<div
+				class="col-md-5 d-flex justify-content-center align-items-center">
+				<img th:src="@{'loginPageImage/front.jpg'}" alt="Login Logo"
+					height="400" width="360" />
 			</div>
 			<div
 				class="col-md-6 d-flex justify-content-center align-items-center">
 				<div class="card ">
 					<div class="card-body">
-						<h4 class="text-center mb-4" style="color:rgba(184, 11, 11, 255);">Login</h4>
+						<h4 class="text-center mb-4"
+							style="color: rgba(184, 11, 11, 255);">Login</h4>
 						<form action="/login" method="post">
 							<div class="mb-4  fw-bold">
 								<label class="form-label">Email Address</label> <input
@@ -117,8 +130,8 @@ h4 {
 							</div>
 						</form>
 						<p class="footer-text text-dark mt-4 text-center">
-							Forgot your password? <a
-								class="fw-bold text-decoration-none" style="color:rgba(184, 11, 11, 255);" href="/reset">Reset
+							Forgot your password? <a class="fw-bold text-decoration-none"
+								style="color: rgba(184, 11, 11, 255);" href="/reset">Reset
 								here</a>.
 						</p>
 					</div>
@@ -126,5 +139,17 @@ h4 {
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript">
+    // Check if the error message is displayed
+    window.onload = function() {
+        var errorMessage = document.getElementById("errorMessage");
+        if (errorMessage) {
+            setTimeout(function() {
+                errorMessage.style.display = "none"; // Hide the error message after 2 seconds
+            }, 3000); // 3000 milliseconds = 2 seconds
+        }
+    };
+</script>
+
 </body>
 </html>
