@@ -852,6 +852,14 @@ a.sidebar-link:hover {
 								Project</span>
 					</a></li>
 				</th:block>
+				
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_EMPLOYEE'}" class="sidebar-item"><a
+						th:href="@{'/list'}" class="sidebar-link "
+						id="attendance-list-link" style="font-size: 16px;"> <i
+							class="fa-solid fa-clipboard me-2"></i> <span class="ms-1">Attendance</span>
+					</a></li>
+				</th:block>
 
 				<th:block th:unless="${user == null}">
 					<li th:if="${user.role == 'ROLE_MANAGER'}" class="sidebar-item"><a

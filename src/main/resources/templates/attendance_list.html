@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Attendance List</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h2>Attendance List</h2>
+   <!--  <a href="/attendance/add">Add Attendance</a> -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Date & Time</th>
+                <th>Location</th>
+                <th>Is Present</th>
+                <!-- <th>Actions</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="att : ${attendanceList}">
+                <td th:text="${att.id}"></td>
+                <td th:text="${att.user.name}"></td>
+                <td th:text="${att.dateTime}"></td>
+                <td th:text="${att.currentLocation}"></td>
+                <td th:text="${att.isPresent ? 'Yes' : 'No'}"></td>
+               <!--  <td>
+                    <a th:href="@{/attendance/edit/{id}(id=${att.id})}">Edit</a> |
+                    <a th:href="@{/attendance/delete/{id}(id=${att.id})}" onclick="return confirm('Are you sure?')">Delete</a>
+                </td> -->
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

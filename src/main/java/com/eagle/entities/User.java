@@ -51,6 +51,9 @@ public class User {
 
 	@OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> employees = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Attendance> attendanceRecords = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -202,5 +205,13 @@ public class User {
 
 	public void setOtp(Integer otp) {
 		this.otp = otp;
+	}
+	
+	public List<Attendance> getAttendanceRecords() {
+	    return attendanceRecords;
+	}
+
+	public void setAttendanceRecords(List<Attendance> attendanceRecords) {
+	    this.attendanceRecords = attendanceRecords;
 	}
 }
