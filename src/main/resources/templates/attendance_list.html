@@ -1,13 +1,111 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance List</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: #2b87f0;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            max-width: 1000px;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        thead {
+            background-color: #4a90e2;
+            color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f4f7fc;
+        }
+
+        tr:hover {
+            background-color: #e0efff;
+        }
+
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .status-yes {
+            color: #28a745;
+        }
+
+        .status-no {
+            color: #ff6b6b;
+        }
+
+        /* Button Styling */
+        .add-btn {
+            padding: 12px 20px;
+            background-color: #4a90e2;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .add-btn:hover {
+            background-color: #357ab7;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            table {
+                width: 90%;
+            }
+            h2 {
+                font-size: 2em;
+            }
+        }
+
+    </style>
 </head>
 <body>
     <h2>Attendance List</h2>
-   <!--  <a href="/attendance/add">Add Attendance</a> -->
-    <table border="1">
+    <!-- Add Attendance Button -->
+    <a href="/attendance" class="add-btn">Add Attendance</a>
+
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -15,7 +113,6 @@
                 <th>Date & Time</th>
                 <th>Location</th>
                 <th>Is Present</th>
-                <!-- <th>Actions</th> -->
             </tr>
         </thead>
         <tbody>
@@ -24,11 +121,10 @@
                 <td th:text="${att.user.name}"></td>
                 <td th:text="${att.dateTime}"></td>
                 <td th:text="${att.currentLocation}"></td>
-                <td th:text="${att.isPresent ? 'Yes' : 'No'}"></td>
-               <!--  <td>
-                    <a th:href="@{/attendance/edit/{id}(id=${att.id})}">Edit</a> |
-                    <a th:href="@{/attendance/delete/{id}(id=${att.id})}" onclick="return confirm('Are you sure?')">Delete</a>
-                </td> -->
+                <td>
+                    <span th:class="${att.isPresent ? 'status-yes' : 'status-no'}"
+                          th:text="${att.isPresent ? 'Yes' : 'No'}"></span>
+                </td>
             </tr>
         </tbody>
     </table>
