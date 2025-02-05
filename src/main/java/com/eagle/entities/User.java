@@ -41,7 +41,7 @@ public class User {
 
 	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Chatting> chattings = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "user_chat", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<GroupChat> Group_chatting = new ArrayList<>();
 
@@ -51,9 +51,12 @@ public class User {
 
 	@OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<User> employees = new ArrayList<>();
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Attendance> attendanceRecords = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Leave> leaves = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -206,12 +209,20 @@ public class User {
 	public void setOtp(Integer otp) {
 		this.otp = otp;
 	}
-	
+
 	public List<Attendance> getAttendanceRecords() {
-	    return attendanceRecords;
+		return attendanceRecords;
 	}
 
 	public void setAttendanceRecords(List<Attendance> attendanceRecords) {
-	    this.attendanceRecords = attendanceRecords;
+		this.attendanceRecords = attendanceRecords;
+	}
+
+	public List<Leave> getLeaves() {
+		return leaves;
+	}
+
+	public void setLeaves(List<Leave> leaves) {
+		this.leaves = leaves;
 	}
 }

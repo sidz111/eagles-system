@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pending Leave Requests</title>
+</head>
+<body>
+    <h2>Pending Leave Requests</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Reason</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="leave : ${pendingLeaves}">
+            <td th:text="${leave.id}"></td>
+            <td th:text="${leave.user.id}"></td>
+            <td th:text="${leave.leaveFrom}"></td>
+            <td th:text="${leave.leaveTo}"></td>
+            <td th:text="${leave.reason}"></td>
+            <td>
+                <a th:href="@{/leaves/approve/{id}(id=${leave.id})}">Approve</a> |
+                <a th:href="@{/leaves/delete/{id}(id=${leave.id})}" style="color:red;">Delete</a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

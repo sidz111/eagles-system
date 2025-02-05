@@ -809,6 +809,24 @@ a.sidebar-link:hover {
 					<hr></li>
 
 				<!-- ADMIN HOME -->
+				
+				<th:block th:unless="${user == null}">
+					<li class="sidebar-item nav-item"><a th:href="@{'/leaves/myLeaves?userId=' + ${user.id}}"
+						class="sidebar-link nav-link" id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-house me-2"></i>
+							<span class="ms-1">My Leaves</span>
+					</a></li>
+				</th:block>
+				
+				<th:block th:unless="${user == null}">
+					<li th:if="${user.role != 'ROLE_EMPLOYEE'}"
+						class="sidebar-item nav-item"><a th:href="@{'/leaves/pending'}"
+						class="sidebar-link nav-link" id="Home-link"
+						style="font-size: 16px;"> <i class="fa-solid fa-house me-2"></i>
+							<span class="ms-1">Leaves Requests</span>
+					</a></li>
+				</th:block>
+				
 				<th:block th:unless="${user == null}">
 					<li th:if="${user.role == 'ROLE_ADMIN'}"
 						class="sidebar-item nav-item"><a th:href="@{'/'}"

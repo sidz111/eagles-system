@@ -41,6 +41,8 @@ public class SecurityConfiguration {
         httpSecurity.csrf(csrf -> csrf.disable()).authorizeHttpRequests(requests -> requests
                 .requestMatchers("/admin/**")
                 .hasRole("ADMIN")
+                .requestMatchers("/leaves/pending")
+                .hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/manager/**")
                 .hasRole("MANAGER")
                 .requestMatchers("/employee/**")
